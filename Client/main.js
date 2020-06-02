@@ -28,7 +28,7 @@ function getMessages(){
         }
     };
     
-    xhttp.open("GET", "http://68.123.14.86:8888/msgs.txt", true);
+    xhttp.open("GET", "http://68.123.14.86:8888?rtype=getposts", true);
     
     xhttp.send();
     
@@ -47,14 +47,17 @@ function sendMessage(message){
         }
     };
     
-    xhttp.open("POST", "http://68.123.14.86:8888", true);
+    xhttp.open("POST", "http://68.123.14.86:8888?rtype=postpost", true);
     
     xhttp.send(cryptico.encrypt(message,getPublicKey()).cipher);
     
     return xhttp;
 }
 function main(){
-    sendMessage("Hello World");    
+    
+    
+    const domContainer = document.querySelector('#root');
+    ReactDOM.render(new ContactDisplay(new Contact("324r234", "Bobby")), domContainer);
     
 }
 

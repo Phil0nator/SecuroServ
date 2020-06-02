@@ -1,10 +1,9 @@
 
-
 function handleMessages(msgs){
     console.log(msgs);
     messages = msgs.split(",");
     for(var i = 0 ; i < messages.length;i++){
-        messages[i];
+        console.log(cryptico.decrypt(messages[i], prkey))
     }
 }
 
