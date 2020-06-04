@@ -4,12 +4,17 @@
         <title>
             SecuroServ
         </title>
+        <script src="uikit/js/uikit.min.js"></script>
+        <script src="uikit/js/uikit-icons.min.js"></script>
     </head>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/contact-display.css">
-    <body>
-        <div id="root"></div>
+    <link rel="stylesheet" href="css/common_class.css">
+    <link rel="stylesheet" href="uikit/css/uikit.min.css" />
+    <link rel="stylesheet" href="css/scrollbar.css" />
+
+    <body class="container">
+        <div id="root" class="text_color"></div>
 
         <!-- Load Cryptio -->
         <script language="JavaScript" type="text/javascript" src="cryptio/jsbn.js"></script>
@@ -54,12 +59,32 @@
                 return "";
             }
         </script>
+        
+        <div id="messages_display" class="messages_display_area uk-background-primary">
+            
+            <ol class="uk-list" id="messages_list">
+                
+            </ol>
+
+        </div>
 
 
-        <script src="elements/ContactDisplay.js"></script>
+        <div id="contacts_display" class="contact_area uk-background-primary">
+            <ol class="uk-list" id="contact_list" style="padding-top:1%;padding-left:1%;">
+                
+            </ol>
+        </div>
 
+        <div id="send_area" class="msg_input uk-background-secondary">
+            <form id="sender" action="#" onsubmit="messageBox_onEnter();">
+                <input id="message" type="text" placeholder="Message" autocomplete="off" class="uk-input" maxlength="100">
+            </form>
+        </div>
 
-        <input id="file-input">
+        <div id="topbanner" class="uk-background-secondary" uk-sticky="top: #messages_display">
+            <p>content</p>
+        </div>
+        
         <script src="network.js"  type="text/javascript"></script>
         <script src="main.js"  type="text/javascript"></script>
         

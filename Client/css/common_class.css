@@ -1,0 +1,131 @@
+* {
+    margin: 0;
+    padding: 0;
+    
+  }
+*:focus{
+    outline: 0px;
+}
+
+div{
+
+}
+
+::placeholder{ /* Chrome, Firefox, Opera, Safari 10.1+ */
+    
+}
+#body{
+    overflow: hidden;
+    overflow-x:hidden;
+}
+.primary{
+    background-color:darkgreen;
+    border-color:darkgreen;
+}
+.secondary{
+    background-color:darkseagreen;
+    border-color:darkseagreen;
+}
+.text_color{
+    color:white;
+}
+
+.msg_input{
+
+    position:absolute;
+    
+    width:80%;
+    height:10%;
+    
+    top:90%;
+    left:20%;
+    margin-bottom: 0%;
+
+}
+.message_shape{
+    position: absolute;
+    width:92%;
+    left:4%;
+    top:20%;
+    height:34%;
+    border-style:solid;
+    border-radius: 10px;
+    
+    
+}
+
+#message{
+
+    position:absolute;
+    width:90%;
+    left:5%;
+    top:25%;
+    height:25%;
+    border-radius: 10px;
+    min-height: 35px;
+
+}
+#input_hint{
+    opacity: 50%;
+    position:absolute;
+    width:90%;
+    left:5%;
+    top:25%;
+    height:25%;
+    border: none;
+    
+}
+
+.contact_area{
+
+    position:absolute;
+    width:20%;
+    height:95%;
+    top:5%;
+    margin-top:0%;
+    margin-left:0%;
+    overflow-y: auto;
+
+}
+
+.messages_display_area{
+    position:absolute;
+    width:80%;
+    height:85%;
+    top:5%;
+    left:20%;
+    overflow-y: auto;
+
+    
+}
+
+.msg{
+    position: relative;
+    width:98%;
+    left:1%;
+    height:5%;
+    min-height: 25px;
+}
+
+.msg_text{
+    position: absolute;
+    height:100%;
+    width:100%;
+    top:25%;
+}
+
+
+.contact{
+    position: relative;
+    width:100%;
+    
+
+}
+
+
+#topbanner{
+    position: relative;
+    width:100%;
+    height:5%;
+    
+}
