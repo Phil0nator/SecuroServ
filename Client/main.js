@@ -4,10 +4,33 @@ class Contact{
         this.key = key;
         this.name=name;
         this.messages=[];
+        this.button = undefined;
+        this.div = undefined;
+        this.pending=0;
     }
 
     save(){
         setCookie("]"+this.name,this.key,999999999);
+    }
+
+    addPending(){
+        this.pending++;
+        var alreadyPending = document.getElementById(this.name+"pendingSymbol");
+        if(alreadyPending != undefined){
+            alreadyPending.innerHTML = parseInt( alreadyPending.innerHTML )+1;
+        }else{
+            alreadyPending = document.createElement("span");
+            alreadyPending.setAttribute("class", "uk-badge uk-animation-slide-bottom-medium");
+            alreadyPending.innerHTML = this.pending;
+            alreadyPending.setAttribute("id", this.name+"pendingSymbol");
+            this.div.appendChild(alreadyPending);
+        }
+
+    }
+
+    removePending(){
+        this.div.removeChild(document.getElementById(this.name+"pendingSymbol"));
+        this.pending=0;
     }
 
 }
@@ -74,30 +97,39 @@ function main(){
     }
     console.log(contacts);
     currentContact=contacts[0];
-    
+    document.getElementById("current_contact_disp").innerHTML = "@"+currentContact.name;
     for(var i = 0 ; i < contacts.length;i++){
         createContactElement(contacts[i].name, i);
     }
+    
 
 }
 var contactlist = document.getElementById("contact_list");
 main();
 
 function createContactElement(name, index){
+    var diver = document.createElement("div");
+    diver.setAttribute("class", "uk-background uk-background-secondary");
     var button = document.createElement("button");
     button.appendChild(document.createTextNode(name));
     button.setAttribute("id", name);
-    button.setAttribute("class", "uk-button uk-button-secondary uk-button-large contact uk-text-truncate");
+    button.setAttribute("class", "uk-button uk-button-secondary uk-button-large contact uk-text-truncate uk-animation-slide-right");
     button.cindex = index;
     button.addEventListener('click', function(){
         contact_onpress(this.cindex);
     });
-    contactlist.appendChild(button);
+    contacts[index].button = button;
+    contacts[index].div = diver;
+    diver.appendChild(button)
+    contactlist.appendChild(diver);
+    /*
+    <button id=name class = "uk-button uk-button-secondary uk-button-large contact uk-text-truncate uk-animation-slide-right"></button>
+    */
 }
 
 function createMessageElement(name, messagetext){
     var d = document.createElement("div");
-    d.setAttribute("class","uk-card uk-card-secondary msg uk-card-small");
+    d.setAttribute("class","uk-card uk-card-secondary msg uk-card-small uk-animation-slide-left-small");
     var sp = document.createElement("span");
     sp.setAttribute("class", "uk-text-middle uk-text-truncate msg_text");
     sp.setAttribute("style", "padding-left:1%");
@@ -123,10 +155,12 @@ function addNewContact(name, key){
 function messageBox_onEnter(){
     sendMessage(document.getElementById("message").value);
     document.getElementById("message").value="";
+    document.getElementById("messages_display").scrollBy(0,100);
     return true;
 }
 
 function contact_onpress(index){
     currentContact = contacts[index];
     updateMessagesDisplay();
+    document.getElementById("current_contact_disp").innerHTML = "@"+currentContact.name;
 }

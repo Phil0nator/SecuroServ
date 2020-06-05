@@ -81,8 +81,18 @@
             </form>
         </div>
 
-        <div id="topbanner" class="uk-background-secondary" uk-sticky="top: #messages_display">
-            <p>content</p>
+        <div id="topbanner" class="uk-background-secondary uk-box-shadow-small " uk-sticky="top: #messages_display">
+            <div id="over-contact" class="uk-animation-slide-top-medium">
+                <div style="width:100%;top:1%;height:100%;" class="uk-align-center">
+                    <a uk-icon="icon: plus" class="uk-margin-medium-left uk-icon-button"uk-tooltip="New Contact"></a>
+                    <a uk-icon="icon: pencil" class="uk-margin-medium-left uk-icon-button"uk-tooltip="Edit Contacts"></a>
+                    <a uk-icon="icon: cog" class="uk-margin-medium-left uk-icon-button" uk-tooltip="Settings"></a>
+                    <a uk-icon="icon: user" class="uk-margin-medium-left uk-icon-button" uk-tooltip="Account Info"></a>
+                </div>
+            </div>
+            <div id="over-messages"class="uk-animation-slide-top-medium">
+                <h1 class="uk-text-large uk-text-primary uk-text-bold" id="current_contact_disp"></h1>
+            </div>
         </div>
         
         <script src="network.js"  type="text/javascript"></script>
