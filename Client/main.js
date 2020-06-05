@@ -147,8 +147,9 @@ function createMessageElement(name, messagetext){
 function addNewContact(name, key){
     var newcontact = new Contact(key,name);
     newcontact.save();
-    createContactElement(name,contacts.length);
     contacts.push(newcontact);
+    createContactElement(name,contacts.length-1);
+    
 }
 
  //callbacks:
@@ -163,4 +164,52 @@ function contact_onpress(index){
     currentContact = contacts[index];
     updateMessagesDisplay();
     document.getElementById("current_contact_disp").innerHTML = "@"+currentContact.name;
+}
+function openContent(name){
+    var elems = document.getElementById(name).querySelectorAll("*");
+    for(var i = 0 ; i < elems.length;i++){
+        elems[i].style.visibility="visible";
+    }
+    document.getElementById(name).style.visibility="visible";
+
+    return elems;
+}
+function closeContent(name){
+    var elems = document.getElementById(name).querySelectorAll("*");
+    for(var i = 0 ; i < elems.length;i++){
+        elems[i].style.visibility="hidden";
+    }
+    document.getElementById(name).style.visibility="hidden";
+    return elems;
+
+}
+function openSideMenu(name){
+    var menu = document.getElementById(name);
+    var innermenu = document.getElementById(name+"_bg");
+    innermenu.setAttribute("class", "");
+    innermenu.offsetHeight;
+    innermenu.setAttribute("class", "uk-background uk-background-primary contact_area uk-animation-slide-top-small");
+    openContent(name);
+}
+function closeSideMenu(name){
+    var menu = document.getElementById(name);
+    var innermenu = document.getElementById(name+"_bg");
+    innermenu.setAttribute("class", "");
+    innermenu.offsetHeight;
+    innermenu.setAttribute("class", "uk-background uk-background-primary contact_area uk-animation-slide-left-small uk-animation-reverse");
+    setTimeout(function(){closeContent(name);},500);
+    
+}
+function openNewContactMenu(){
+    openSideMenu("new_contact_menu");
+}
+function closeNewContactMenu(){
+    closeSideMenu("new_contact_menu");
+}
+function submit_new_contact(){
+    var ncn = document.getElementById("new_contact_name").value;document.getElementById("new_contact_name").value="";
+    var nck = document.getElementById("new_contact_key").value;document.getElementById("new_contact_key").value="";
+    
+    addNewContact(ncn, nck);
+    closeNewContactMenu();
 }

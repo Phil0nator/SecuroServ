@@ -1,6 +1,8 @@
 * {
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
+    overflow-y:hidden;
     
   }
 *:focus{
@@ -53,6 +55,16 @@ div{
     
     
 }
+input{
+    
+    position:absolute;
+    width:90%;
+    left:5%;
+    top:25%;
+    height:25%;
+    border-radius: 10px;
+    min-height: 35px;
+}
 
 #message{
 
@@ -78,6 +90,7 @@ div{
     overflow-y: auto;
     border-right:solid;
     border-color: #222222;
+    min-width:333px;
 
 }
 
@@ -88,7 +101,6 @@ div{
     top:5%;
     left:20%;
     overflow-y: auto;
-
     
 }
 
@@ -127,23 +139,33 @@ div{
     position: relative;
     width:100%;
     height:5%;
+    min-height:50px;
     
 }
 #over-contact{
-    position: absolute;
+    position: relative;
     width:20%;
     top:0%;
+    min-width:333px;
 }
 #over-messages{
     position: absolute;
-    left:20%;
+    left:50%;
     width:80%;
     top:0%;
-}
+    min-width:1300px;
+    
 
+}
+#new_contact_menu{
+    visibility: hidden;
+}
 
 .bannerIcon{
     position: relative;
     padding:1%;
     margin: 2%;
+}
+#new_contact_form{
+    position:fixed;
 }

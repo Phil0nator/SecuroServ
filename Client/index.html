@@ -75,7 +75,11 @@
             </ol>
         </div>
 
-        <div id="send_area" class="msg_input uk-background-secondary">
+        <div id="send_area_background" class="msg_input uk-background-secondary">
+
+        </div>
+
+        <div id="send_area" class="msg_input uk-background-secondary uk-animation-slide-bottom-medium">
             <form id="sender" action="#" onsubmit="messageBox_onEnter();">
                 <input id="message" type="text" placeholder="Message" autocomplete="off" class="uk-input" maxlength="100">
             </form>
@@ -84,7 +88,7 @@
         <div id="topbanner" class="uk-background-secondary uk-box-shadow-small " uk-sticky="top: #messages_display">
             <div id="over-contact" class="uk-animation-slide-top-medium">
                 <div style="width:100%;top:1%;height:100%;" class="uk-align-center">
-                    <a uk-icon="icon: plus" class="uk-margin-medium-left uk-icon-button"uk-tooltip="New Contact"></a>
+                    <a uk-icon="icon: plus" class="uk-margin-medium-left uk-icon-button"uk-tooltip="New Contact" onclick="openNewContactMenu();"></a>
                     <a uk-icon="icon: pencil" class="uk-margin-medium-left uk-icon-button"uk-tooltip="Edit Contacts"></a>
                     <a uk-icon="icon: cog" class="uk-margin-medium-left uk-icon-button" uk-tooltip="Settings"></a>
                     <a uk-icon="icon: user" class="uk-margin-medium-left uk-icon-button" uk-tooltip="Account Info"></a>
@@ -95,6 +99,23 @@
             </div>
         </div>
         
+
+        <div id="new_contact_menu" class="uk-overlay-primary uk-position-cover">
+            <div id="new_contact_menu_bg" class="uk-background uk-background-primary">
+                <div id="ncm_head" class="uk-background-secondary" style="width:100%;height:5%;min-height:35px;">
+                    <a onclick="closeNewContactMenu();" class="uk-icon-button uk-margin-medium-left uk-margin-small-top" uk-icon="arrow-left"></a>
+                    <p class="uk-text uk-text-large uk-align-right uk-margin-medium-right uk-margin-small-top" style="left:50%">New Contact</p>
+                </div>
+                <form id="new_contact_form" action="#" style="width:100%;height:25%;position: relative;">
+                    <input id="new_contact_name" type="text" placeholder="Name" autocomplete="off" class="uk-input" style="width:90%;position: relative;">
+                    <input id="new_contact_key" type="text" placeholder="Encryption Key" autocomplete="off" class="uk-input" style="width:90%;position: relative;">
+                    
+                </form>
+                <button id="ncf_submit" class="uk-button uk-button-text" style="position:relative;width:90%;left:5%;" onclick="submit_new_contact();">Submit</button>
+            </div>
+        </div>
+
+
         <script src="network.js"  type="text/javascript"></script>
         <script src="main.js"  type="text/javascript"></script>
         
