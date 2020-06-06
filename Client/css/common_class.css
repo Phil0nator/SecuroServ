@@ -19,6 +19,7 @@ div{
 #body{
     overflow: hidden;
     overflow-x:hidden;
+    
 }
 .primary{
     background-color:darkgreen;
@@ -31,7 +32,9 @@ div{
 .text_color{
     color:white;
 }
-
+#root{
+    position: relative;
+}
 .msg_input{
 
     position:absolute;
@@ -136,22 +139,31 @@ input{
 
 
 #topbanner{
-    position: relative;
+    position: absolute;
+    width:100%;
+    height:45px;
+    top:25px;
+    min-height:50px;
+    
+}
+#topbanner-backingfb{
+    position: absolute;
     width:100%;
     height:5%;
     min-height:50px;
-    
 }
 #over-contact{
     position: relative;
     width:20%;
-    top:0%;
+    height:45px;
+    top:5px;
     min-width:333px;
 }
 #over-messages{
     position: absolute;
     left:50%;
     width:80%;
+    height:45px;
     top:0%;
     min-width:1300px;
     

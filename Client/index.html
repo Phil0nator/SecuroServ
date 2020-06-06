@@ -13,7 +13,24 @@
     <link rel="stylesheet" href="uikit/css/uikit.min.css" />
     <link rel="stylesheet" href="css/scrollbar.css" />
 
-    <body class="container">
+    <body class="container" id="body">
+
+        <script>
+            var custome_titlebar_error = false;
+            try{
+                //electron topbar
+                const customTitlebar = require('custom-electron-titlebar');
+                
+                new customTitlebar.Titlebar({
+                    backgroundColor: customTitlebar.Color.fromHex('#444'),
+                    top:-5
+                });
+            }catch(err){
+                custome_titlebar_error=true;
+            }
+        </script>
+
+
         <div id="root" class="text_color"></div>
 
         <!-- Load Cryptio -->
@@ -59,66 +76,69 @@
                 return "";
             }
         </script>
-        
-        <div id="messages_display" class="messages_display_area uk-background-primary">
-            
-            <ol class="uk-list" id="messages_list">
-                
-            </ol>
-
-        </div>
-
-
-        <div id="contacts_display" class="contact_area uk-background-primary">
-            <ol class="uk-list" id="contact_list" style="padding-top:1%;padding-left:1%;">
-                
-            </ol>
-        </div>
-
-        <div id="send_area_background" class="msg_input uk-background-secondary">
-
-        </div>
-
-        <div id="send_area" class="msg_input uk-background-secondary uk-animation-slide-bottom-medium">
-            <form id="sender" action="#" onsubmit="messageBox_onEnter();">
-                <input id="message" type="text" placeholder="Message" autocomplete="off" class="uk-input" maxlength="100">
-            </form>
-        </div>
-
-        <div id="topbanner" class="uk-background-secondary uk-box-shadow-small " uk-sticky="top: #messages_display">
-            <div id="over-contact" class="uk-animation-slide-top-medium">
-                <div style="width:100%;top:1%;height:100%;" class="uk-align-center">
-                    <a uk-icon="icon: plus" class="uk-margin-medium-left uk-icon-button"uk-tooltip="New Contact" onclick="openNewContactMenu();"></a>
-                    <a uk-icon="icon: pencil" class="uk-margin-medium-left uk-icon-button"uk-tooltip="Edit Contacts"></a>
-                    <a uk-icon="icon: cog" class="uk-margin-medium-left uk-icon-button" uk-tooltip="Settings"></a>
-                    <a uk-icon="icon: user" class="uk-margin-medium-left uk-icon-button" uk-tooltip="Account Info"></a>
+        <div id="topbanner-backingfb" class="uk-background uk-background-secondary"></div>
+        <div id="topbanner" class="uk-background-secondary">
+            <div id="over-contact" class="" uk-sticky>
+                <div style="" class="uk-align-center">
+                    <a uk-icon="icon: plus" class="uk-margin-medium-left uk-icon-button"uk-tooltip="title:New Contact;pos:bottom" onclick="openNewContactMenu();"></a>
+                    <a uk-icon="icon: pencil" class="uk-margin-medium-left uk-icon-button"uk-tooltip="title:Edit Contacts;pos:bottom"></a>
+                    <a uk-icon="icon: cog" class="uk-margin-medium-left uk-icon-button" uk-tooltip="title:Settings;pos:bottom"></a>
+                    <a uk-icon="icon: user" class="uk-margin-medium-left uk-icon-button" uk-tooltip="title:Account;pos:bottom"></a>
                 </div>
             </div>
             <div id="over-messages"class="uk-animation-slide-top-medium">
                 <h1 class="uk-text-large uk-text-primary uk-text-bold" id="current_contact_disp"></h1>
             </div>
         </div>
-        
+        <div id="main_page">
 
-        <div id="new_contact_menu" class="uk-overlay-primary uk-position-cover">
-            <div id="new_contact_menu_bg" class="uk-background uk-background-primary">
-                <div id="ncm_head" class="uk-background-secondary" style="width:100%;height:5%;min-height:35px;">
-                    <a onclick="closeNewContactMenu();" class="uk-icon-button uk-margin-medium-left uk-margin-small-top" uk-icon="arrow-left"></a>
-                    <p class="uk-text uk-text-large uk-align-right uk-margin-medium-right uk-margin-small-top" style="left:50%">New Contact</p>
-                </div>
-                <form id="new_contact_form" action="#" style="width:100%;height:25%;position: relative;">
-                    <input id="new_contact_name" type="text" placeholder="Name" autocomplete="off" class="uk-input" style="width:90%;position: relative;">
-                    <input id="new_contact_key" type="text" placeholder="Encryption Key" autocomplete="off" class="uk-input" style="width:90%;position: relative;">
+            <div id="messages_display" class="messages_display_area uk-background-primary">
+                
+                <ol class="uk-list" id="messages_list">
                     
+                </ol>
+    
+            </div>
+    
+    
+            <div id="contacts_display" class="contact_area uk-background-primary">
+                <ol class="uk-list" id="contact_list" style="padding-top:1%;padding-left:1%;">
+                    
+                </ol>
+            </div>
+    
+            <div id="send_area_background" class="msg_input uk-background-secondary">
+    
+            </div>
+    
+            <div id="send_area" class="msg_input uk-background-secondary uk-animation-slide-bottom-medium">
+                <form id="sender" action="#" onsubmit="messageBox_onEnter();">
+                    <input id="message" type="text" placeholder="Message" autocomplete="off" class="uk-input" maxlength="100">
                 </form>
-                <button id="ncf_submit" class="uk-button uk-button-text" style="position:relative;width:90%;left:5%;" onclick="submit_new_contact();">Submit</button>
+            </div>
+    
+            
+            
+    
+            <div id="new_contact_menu" class="uk-overlay-primary uk-position-cover">
+                <div id="new_contact_menu_bg" class="uk-background uk-background-primary">
+                    <div id="ncm_head" class="uk-background-secondary" style="width:100%;height:5%;min-height:35px;">
+                        <a onclick="closeNewContactMenu();" class="uk-icon-button uk-margin-medium-left uk-margin-small-top" uk-icon="arrow-left"></a>
+                        <p class="uk-text uk-text-large uk-align-right uk-margin-medium-right uk-margin-small-top" style="left:50%">New Contact</p>
+                    </div>
+                    <form id="new_contact_form" action="#" style="width:100%;height:25%;position: relative;">
+                        <input id="new_contact_name" type="text" placeholder="Name" autocomplete="off" class="uk-input" style="width:90%;position: relative;">
+                        <input id="new_contact_key" type="text" placeholder="Encryption Key" autocomplete="off" class="uk-input" style="width:90%;position: relative;">
+                        
+                    </form>
+                    <button id="ncf_submit" class="uk-button uk-button-text" style="position:relative;width:90%;left:5%;" onclick="submit_new_contact();">Submit</button>
+                </div>
             </div>
         </div>
 
 
         <script src="network.js"  type="text/javascript"></script>
         <script src="main.js"  type="text/javascript"></script>
-        
     </body>
 
 </html>
