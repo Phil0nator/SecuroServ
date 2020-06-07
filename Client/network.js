@@ -1,6 +1,6 @@
 
 function handleMessages(msgs){
-    console.log(msgs);
+    //console.log(msgs);
     messages = msgs.split(",");
     var prkey = getPrivateKey();
     for(var i = 0 ; i < messages.length;i++){
@@ -13,7 +13,7 @@ function handleMessages(msgs){
             if(attempt["signature"] == "verified"){
                 var signature = attempt["publicKeyString"];
                 for(var j = 0 ;j < contacts.length;j++){
-                    if(contacts[j].key == signature&&contacts[j].messages[contacts[j].messages.length] != content){
+                    if(contacts[j].key+"==" == signature&&contacts[j].messages[contacts[j].messages.length-1] !=contacts[j].name+" : "+  content){
                         contacts[j].messages.push(contacts[j].name+" : "+content);
                         
                         if(contacts[j] == currentContact){

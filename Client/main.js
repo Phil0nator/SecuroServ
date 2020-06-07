@@ -85,7 +85,7 @@ class Contact{
     constructor(key, name){
         this.key = key;
         this.name=name;
-        this.messages=[];
+        this.messages=["This is the beggining of your conversation"];
         this.button = undefined;
         this.div = undefined;
         this.pending=0;
@@ -192,7 +192,7 @@ function sendMessage(message,contact){
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             var out =  this.responseText;
-            console.log(out);
+            //console.log(out);
         }
     };
     
