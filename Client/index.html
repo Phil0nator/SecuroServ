@@ -15,6 +15,15 @@
 
     <body class="container" id="body">
 
+        <!-- redirect for # action-->
+        <script>
+            if(!location.href.endsWith("#")){
+                location.href="http://localhost:5500/?#";
+            }
+            //needs redirect so that forms will not reload the page
+        </script>
+
+
         <script>
             var custome_titlebar_error = false;
             try{
@@ -61,6 +70,13 @@
                 document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
             }
 
+            function deleteCookie(cname){
+                var d = new Date();
+                d.setTime(d.getTime() + (1));
+                var expires = "expires="+d.toUTCString();
+                document.cookie = cname + "=" + "_" + ";" + expires + ";path=/";
+            }
+
             function getCookie(cname) {
                 var name = cname + "=";
                 var ca = document.cookie.split(';');
@@ -79,11 +95,11 @@
         <div id="topbanner-backingfb" class="uk-background uk-background-secondary"></div>
         <div id="topbanner" class="uk-background-secondary">
             <div id="over-contact" class="" uk-sticky>
-                <div style="" class="uk-align-center">
+                <div style="top:0px" class="uk-align-center">
                     <a uk-icon="icon: plus" class="uk-margin-medium-left uk-icon-button"uk-tooltip="title:New Contact;pos:bottom" onclick="openNewContactMenu();"></a>
-                    <a uk-icon="icon: pencil" class="uk-margin-medium-left uk-icon-button"uk-tooltip="title:Edit Contacts;pos:bottom"></a>
-                    <a uk-icon="icon: cog" class="uk-margin-medium-left uk-icon-button" uk-tooltip="title:Settings;pos:bottom"></a>
-                    <a uk-icon="icon: user" class="uk-margin-medium-left uk-icon-button" uk-tooltip="title:Account;pos:bottom"></a>
+                    <a uk-icon="icon: pencil" class="uk-margin-medium-left uk-icon-button"uk-tooltip="title:Edit Contacts;pos:bottom" onclick="toggleEdit();"></a>
+                    <a uk-icon="icon: cog" class="uk-margin-medium-left uk-icon-button" uk-tooltip="title:Settings;pos:bottom" onclick="openSettingsMenu();"></a>
+                    <a uk-icon="icon: user" class="uk-margin-medium-left uk-icon-button" uk-tooltip="title:Account;pos:bottom" onclick="openAccountInfo();"></a>
                 </div>
             </div>
             <div id="over-messages"class="uk-animation-slide-top-medium">
@@ -134,6 +150,39 @@
                     <button id="ncf_submit" class="uk-button uk-button-text" style="position:relative;width:90%;left:5%;" onclick="submit_new_contact();">Submit</button>
                 </div>
             </div>
+
+
+
+
+            <div id="settings_menu" class="uk-overlay-primary uk-position-cover">
+                <div id="settings_menu_bg" class="uk-background uk-background-primary">
+                    <div id="sm_head" class="uk-background-secondary" style="width:100%;height:5%;min-height:35px;">
+                        <a onclick="closeSettingsMenu();" class="uk-icon-button uk-margin-medium-left uk-margin-small-top" uk-icon="arrow-left"></a>
+                        <p class="uk-text uk-text-large uk-align-right uk-margin-medium-right uk-margin-small-top" style="left:50%">Settings</p>
+                    </div>
+                    <form id="settings_form" action="#" style="width:100%;height:25%;position: relative;">
+                    </form>
+                </div>
+            </div>
+
+
+            <div id="account_info" class="uk-overlay-primary uk-position-cover">
+                <div id="account_info_bg" class="uk-background uk-background-primary">
+                    <div id="aim_head" class="uk-background-secondary" style="width:100%;height:5%;min-height:35px;">
+                        <a onclick="closeAccountInfo();" class="uk-icon-button uk-margin-medium-left uk-margin-small-top" uk-icon="arrow-left"></a>
+                        <p class="uk-text uk-text-large uk-align-right uk-margin-medium-right uk-margin-small-top" style="left:50%">Account Info</p>
+                    </div>
+                    <div id="aim_body">
+                        <div id="aim_pukey" class="uk-card uk-card-body uk-card-default uk-card-large">
+                            <h3 class="uk-card-title">Public Key</h3>
+                            <p id="aim_pukey_disp" class="uk-text" style="word-break: break-all"></p>
+                        </div>
+                        <button id="submit_new_key" class="uk-button uk-button-text" style="position:relative;width:90%;left:5%;" onclick="generateNewKeys();closeAccountInfo();openAccountInfo();">Generate New Keys</button>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
 
 

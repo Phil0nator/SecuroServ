@@ -1,3 +1,4 @@
+let port = "8000"
 let isBrowswer = false;
 try{
     //electron
@@ -109,7 +110,48 @@ class Contact{
 
     }
 
+    showEditMenu(){
+        /*
+        
+        <div id="name+editMenu">
+            <a uk-icon="icon: minus" class="uk-margin-medium-left uk-icon-button"uk-tooltip="title:Remove Contact;pos:bottom" onclick=""></a>
+        
+        */
+
+        var menu = document.createElement("div");
+        
+        menu.setAttribute("id",this.name+"editmenu");
+        menu.setAttribute("class", "uk-margin-medium-left uk-margin-small-bottom");
+        var rmv = document.createElement("a");
+        rmv.setAttribute("uk-icon", "icon: minus");
+        rmv.setAttribute("class", "uk-icon-button");
+        rmv.setAttribute("uk-tooltip","title:Remove "+this.name+";pos:bottom-left");
+        rmv.contacta =this;
+        rmv.onclick = function(){this.contacta.delete();};
+        menu.appendChild(rmv);
+
+        var option = document.createElement("a");
+        option.setAttribute("uk-icon", "icon: settings");
+        option.setAttribute("class", "uk-icon-button uk-margin-small-left");
+        option.setAttribute("uk-tooltip","title:Configure "+this.name+";pos:bottom-left");
+        option.contacta =this;
+
+        menu.appendChild(option);
+
+        this.div.appendChild(menu);
+    }
+
+    hideEditMenu(){
+        this.div.removeChild(document.getElementById(this.name+"editmenu"));
+    }
+
+    delete(){
+        deleteCookie("]"+this.name);
+        document.getElementById("contact_list").removeChild(this.div);
+    }
+
     removePending(){
+        if(this.pending==0){return;}
         this.div.removeChild(document.getElementById(this.name+"pendingSymbol"));
         this.pending=0;
     }
@@ -119,12 +161,6 @@ let pukey;
 let prkey;
 let currentContact;
 let contacts= new Array(0);
-function sendMessage(message, contact){
-
-
-
-
-}
 
 function getMessages(){
 
@@ -135,7 +171,7 @@ function getMessages(){
         }
     };
     
-    xhttp.open("GET", "http://68.123.14.86:8888?rtype=getposts", true);
+    xhttp.open("GET", "http://68.123.14.86:"+port+"?rtype=getposts", true);
     
     xhttp.send();
     
@@ -151,7 +187,7 @@ function updateMessagesDisplay(){
     }
 }
 
-function sendMessage(message){
+function sendMessage(message,contact){
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -160,12 +196,12 @@ function sendMessage(message){
         }
     };
     
-    xhttp.open("POST", "http://68.123.14.86:8888?rtype=postpost", true);
-    
-    xhttp.send(cryptico.encrypt(message,getPublicKey()).cipher);
+    xhttp.open("POST", "http://68.123.14.86:"+port+"?rtype=postpost", true);
+    var outdata = cryptico.encrypt(message,contact.key,getPrivateKey()).cipher;
+    xhttp.send(outdata);
     currentContact.messages.push("You:"+message);
     createMessageElement("You", message);
-    return xhttp;
+    return xhttp, outdata;
 }
 function main(){
     //load contacts
@@ -182,7 +218,7 @@ function main(){
     for(var i = 0 ; i < contacts.length;i++){
         createContactElement(contacts[i].name, i);
     }
-    
+    setInterval(getMessages,5000);
 
 }
 var contactlist = document.getElementById("contact_list");
@@ -214,6 +250,7 @@ function createMessageElement(name, messagetext){
     var sp = document.createElement("span");
     sp.setAttribute("class", "uk-text-middle uk-text-truncate msg_text");
     sp.setAttribute("style", "padding-left:1%");
+    sp.setAttribute("uk-tooltip", "title:"+new Date(Date.now())+";pos:bottom-right");
     var text = document.createTextNode(name+" : "+messagetext);
     sp.appendChild(text);
     d.appendChild(sp);
@@ -235,14 +272,17 @@ function addNewContact(name, key){
 
  //callbacks:
 function messageBox_onEnter(){
-    sendMessage(document.getElementById("message").value);
+    console.log(sendMessage(document.getElementById("message").value, currentContact));
     document.getElementById("message").value="";
     document.getElementById("messages_display").scrollBy(0,100);
     return true;
 }
 
 function contact_onpress(index){
+    currentContact.div.setAttribute("class", "uk-background-secondary");
     currentContact = contacts[index];
+    currentContact.removePending();
+    currentContact.div.setAttribute("class", "uk-background-primary");
     updateMessagesDisplay();
     document.getElementById("current_contact_disp").innerHTML = "@"+currentContact.name;
 }
@@ -278,7 +318,7 @@ function closeSideMenu(name){
     innermenu.setAttribute("class", "");
     innermenu.offsetHeight;
     innermenu.setAttribute("class", "uk-background uk-background-primary contact_area uk-animation-slide-left-small uk-animation-reverse");
-    setTimeout(function(){closeContent(name);},500);
+    setTimeout(function(){closeContent(name);},750);
     
 }
 function openNewContactMenu(){
@@ -293,4 +333,41 @@ function submit_new_contact(){
     
     addNewContact(ncn, nck);
     closeNewContactMenu();
+}
+function openSettingsMenu(){
+    openSideMenu("settings_menu");
+}
+function closeSettingsMenu(){
+    closeSideMenu("settings_menu");
+}
+
+function openAccountInfo(){
+    openSideMenu("account_info");
+    document.getElementById("aim_pukey_disp").innerHTML = getPublicKey();
+}
+function closeAccountInfo(){
+    closeSideMenu("account_info");
+}
+
+
+function editContacts(){
+    for(var i = 0 ; i < contacts.length; i++){
+        contacts[i].showEditMenu();
+    }
+}
+function stopEditingContacts(){
+    for(var i = 0 ; i < contacts.length; i++){
+        contacts[i].hideEditMenu();
+    }
+}
+
+let editToggle = false;
+
+function toggleEdit(){
+    editToggle=!editToggle;
+    if(editToggle){
+        editContacts();
+    }else{
+        stopEditingContacts();
+    }
 }

@@ -2,8 +2,31 @@
 function handleMessages(msgs){
     console.log(msgs);
     messages = msgs.split(",");
+    var prkey = getPrivateKey();
     for(var i = 0 ; i < messages.length;i++){
-        console.log(cryptico.decrypt(messages[i], prkey))
+        var attempt = cryptico.decrypt(messages[i], prkey);
+        if( attempt["status"] == "failure" ){
+            continue;
+        }
+        else{
+            var content = attempt["plaintext"];
+            if(attempt["signature"] == "verified"){
+                var signature = attempt["publicKeyString"];
+                for(var j = 0 ;j < contacts.length;j++){
+                    if(contacts[j].key == signature&&contacts[j].messages[contacts[j].messages.length] != content){
+                        contacts[j].messages.push(contacts[j].name+" : "+content);
+                        
+                        if(contacts[j] == currentContact){
+                            updateMessagesDisplay();
+                        }else{
+                            contacts[j].addPending();
+                        }
+                    }
+                }
+            }else{
+                continue;
+            }
+        }
     }
 }
 
@@ -77,4 +100,19 @@ function getPrivateKey(){
 }
 function getPublicKey(){
     return getCookie("puk");
+}
+
+function sendPlainText(text){
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+        }
+    };
+    
+    xhttp.open("POST", "http://68.123.14.86:"+port+"?rtype=postpost", true);
+    
+    xhttp.send(text);
+    
+    return xhttp;
 }

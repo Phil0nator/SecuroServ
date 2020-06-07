@@ -142,7 +142,7 @@ input{
     position: absolute;
     width:100%;
     height:45px;
-    top:25px;
+    top:15px;
     min-height:50px;
     
 }
@@ -170,6 +170,12 @@ input{
 
 }
 #new_contact_menu{
+    visibility: hidden;
+}
+#settings_menu{
+    visibility:hidden;
+}
+#account_info{
     visibility: hidden;
 }
 
