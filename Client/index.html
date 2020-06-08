@@ -18,7 +18,7 @@
         <!-- redirect for # action-->
         <script>
             if(!location.href.endsWith("#")){
-                location.href="http://localhost:5500/?#";
+                location.href+="?#";
             }
             //needs redirect so that forms will not reload the page
         </script>
@@ -95,7 +95,7 @@
         <div id="topbanner-backingfb" class="uk-background uk-background-secondary"></div>
         <div id="topbanner" class="uk-background-secondary">
             <div id="over-contact" class="" uk-sticky>
-                <div style="top:0px" class="uk-align-center">
+                <div style="top:1%;position:fixed;" class="uk-align-center">
                     <a uk-icon="icon: plus" class="uk-margin-medium-left uk-icon-button"uk-tooltip="title:New Contact;pos:bottom" onclick="openNewContactMenu();"></a>
                     <a uk-icon="icon: pencil" class="uk-margin-medium-left uk-icon-button"uk-tooltip="title:Edit Contacts;pos:bottom" onclick="toggleEdit();"></a>
                     <a uk-icon="icon: cog" class="uk-margin-medium-left uk-icon-button" uk-tooltip="title:Settings;pos:bottom" onclick="openSettingsMenu();"></a>
@@ -109,10 +109,18 @@
         <div id="main_page">
 
             <div id="messages_display" class="messages_display_area uk-background-primary">
+                <div id="edit_contact_overlay" style="visibility: hidden;min-width:333px;" class="uk-overlay-primary uk-position-cover">
                 
-                <ol class="uk-list" id="messages_list">
-                    
-                </ol>
+                </div>
+                <div style="height:85%;overflow-y: auto;">
+                    <ol class="uk-list" id="messages_list"></ol>
+                </div>
+                
+                <div id="send_area" class="msg_input uk-background-secondary uk-animation-slide-bottom-medium">
+                    <form id="sender" action="#" onsubmit="messageBox_onEnter();">
+                        <input id="message" type="text" placeholder="Message" autocomplete="off" class="uk-input" maxlength="100">
+                    </form>
+                </div>
     
             </div>
     
@@ -123,15 +131,9 @@
                 </ol>
             </div>
     
-            <div id="send_area_background" class="msg_input uk-background-secondary">
+            
     
-            </div>
-    
-            <div id="send_area" class="msg_input uk-background-secondary uk-animation-slide-bottom-medium">
-                <form id="sender" action="#" onsubmit="messageBox_onEnter();">
-                    <input id="message" type="text" placeholder="Message" autocomplete="off" class="uk-input" maxlength="100">
-                </form>
-            </div>
+            
     
             
             
@@ -178,7 +180,36 @@
                             <p id="aim_pukey_disp" class="uk-text" style="word-break: break-all"></p>
                         </div>
                         <button id="submit_new_key" class="uk-button uk-button-text" style="position:relative;width:90%;left:5%;" onclick="generateNewKeys();closeAccountInfo();openAccountInfo();">Generate New Keys</button>
+                        <button id="about_keys" class="uk-button uk-button-text uk-margin-medium-top"style="position:relative;width:90%;left:5%;"uk-toggle="target: #modal-about-keys">How are keys generated?</button>
                     </div>
+                </div>
+            </div>
+
+
+            <div id="modal-about-keys" uk-modal>
+                <div class="uk-modal-dialog uk-modal-body">
+                    <h2 class="uk-modal-title">Headline</h2>
+                    <p>2048 bit RSA keys are generated using the javascript library: "Cryptio." For more information about how these are generated, see <a href="https://github.com/wwwtyro/cryptico" target="_blank">the cryptio github.</a></p>
+                    
+                    <p class="uk-text-right">
+                        <button class="uk-button uk-button-default uk-modal-close" type="button">Done</button>
+                    </p>
+                </div>
+            </div>
+
+            
+
+            <div id="edit_contact" class="uk-overlay-primary uk-position-cover">
+                <div id="edit_contact_bg" class="uk-background uk-background-primary">
+                    <div id="ec_head" class="uk-background-secondary" style="width:100%;height:5%;min-height:35px;">
+                        <a onclick="closeContactEdit();" class="uk-icon-button uk-margin-medium-left uk-margin-small-top" uk-icon="arrow-left"></a>
+                        <p class="uk-text uk-text-large uk-align-right uk-margin-medium-right uk-margin-small-top" style="left:50%">Edit Contact</p>
+                    </div>
+                    <form id="ec_form" action="#" style="width:100%;height:25%;position: relative;">
+                        <input id="ec_name" type="text" placeholder="Name" autocomplete="off" class="uk-input" style="width:90%;position: relative;">
+                        <input id="ec_key" type="text" placeholder="Encryption Key" autocomplete="off" class="uk-input" style="width:90%;position: relative;">
+                    </form>
+                    <button id="ec_submit" class="uk-button uk-button-text" style="position:relative;width:90%;left:5%;" onclick="submit_edit_contact(this.contacta);">Submit</button>
                 </div>
             </div>
 

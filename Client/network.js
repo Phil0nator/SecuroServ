@@ -17,7 +17,7 @@ function handleMessages(msgs){
                         contacts[j].messages.push(contacts[j].name+" : "+content);
                         
                         if(contacts[j] == currentContact){
-                            updateMessagesDisplay();
+                            updateMessagesDisplay(false);
                         }else{
                             contacts[j].addPending();
                         }
@@ -110,7 +110,7 @@ function sendPlainText(text){
         }
     };
     
-    xhttp.open("POST", "http://68.123.14.86:"+port+"?rtype=postpost", true);
+    xhttp.open("POST", addr+":"+port+"?rtype=postpost", true);
     
     xhttp.send(text);
     

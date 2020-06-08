@@ -37,13 +37,12 @@ div{
 }
 .msg_input{
 
-    position:absolute;
+    position:fixed;
     
-    width:80%;
+    width:100%;
     height:10%;
-    
     top:90%;
-    left:20%;
+    min-width: 1328;
     margin-bottom: 0%;
 
 }
@@ -84,7 +83,7 @@ input{
 
 .contact_area{
 
-    position:absolute;
+    position:relative;
     width:20%;
     height:95%;
     top:5%;
@@ -100,10 +99,12 @@ input{
 .messages_display_area{
     position:absolute;
     width:80%;
-    height:85%;
-    top:5%;
+    height:100%;
+    top:7%;
     left:20%;
+    
     overflow-y: auto;
+    min-width: 1328;
     
 }
 
@@ -116,7 +117,7 @@ input{
 }
 
 .msg_text{
-    position: absolute;
+    position: relative;
     height:100%;
     width:100%;
     top:25%;
@@ -139,9 +140,9 @@ input{
 
 
 #topbanner{
-    position: absolute;
+    position: relative;
     width:100%;
-    height:45px;
+    height:7%;
     top:15px;
     min-height:50px;
     
@@ -151,6 +152,10 @@ input{
     width:100%;
     height:5%;
     min-height:50px;
+}
+#current_contact_disp{
+    position:fixed;
+    top:0;
 }
 #over-contact{
     position: relative;
@@ -178,7 +183,9 @@ input{
 #account_info{
     visibility: hidden;
 }
-
+#edit_contact{
+    visibility: hidden;
+}
 .bannerIcon{
     position: relative;
     padding:1%;

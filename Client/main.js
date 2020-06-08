@@ -1,4 +1,6 @@
-let port = "8000"
+let port = "8000";
+//let addr = "http://68.123.14.86";
+let addr = "http://70.142.145.111";
 let isBrowswer = false;
 try{
     //electron
@@ -89,7 +91,9 @@ class Contact{
         this.button = undefined;
         this.div = undefined;
         this.pending=0;
+        this.messageElements = [];
     }
+    
 
     save(){
         setCookie("]"+this.name,this.key,999999999);
@@ -135,7 +139,7 @@ class Contact{
         option.setAttribute("class", "uk-icon-button uk-margin-small-left");
         option.setAttribute("uk-tooltip","title:Configure "+this.name+";pos:bottom-left");
         option.contacta =this;
-
+        option.onclick=function(){openContactEdit(this.contacta);}
         menu.appendChild(option);
 
         this.div.appendChild(menu);
@@ -163,27 +167,36 @@ let currentContact;
 let contacts= new Array(0);
 
 function getMessages(){
-
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            handleMessages(this.responseText);
-        }
-    };
-    
-    xhttp.open("GET", "http://68.123.14.86:"+port+"?rtype=getposts", true);
-    
-    xhttp.send();
-    
-    return xhttp;
-
+    try{
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                handleMessages(this.responseText);
+            }
+        };
+        
+        xhttp.open("GET", addr+":"+port+"?rtype=getposts", true);
+        
+        xhttp.send();
+        
+        return xhttp;
+    }catch(err){
+        
+    }
 }
 
-function updateMessagesDisplay(){
-    document.getElementById("messages_list").innerHTML = "";
-    for(var i = 0 ; i < currentContact.messages.length;i++){
+function updateMessagesDisplay(full){
+    if(full){
+        document.getElementById("messages_list").innerHTML = "";
+        
+        for(var i = 0;i < currentContact.messageElements.length;i++){
+            document.getElementById("messages_list").appendChild(currentContact.messageElements[i]);
+        }
+    }
+
+    for(var i = currentContact.messageElements.length; i < currentContact.messages.length;i++){
         var p = currentContact.messages[i].split(":");
-        createMessageElement(p[0],p[1]);
+        currentContact.messageElements.push(createMessageElement(p[0],p[1]));
     }
 }
 
@@ -196,7 +209,7 @@ function sendMessage(message,contact){
         }
     };
     
-    xhttp.open("POST", "http://68.123.14.86:"+port+"?rtype=postpost", true);
+    xhttp.open("POST", addr+":"+port+"?rtype=postpost", true);
     var outdata = cryptico.encrypt(message,contact.key,getPrivateKey()).cipher;
     xhttp.send(outdata);
     currentContact.messages.push("You:"+message);
@@ -255,6 +268,7 @@ function createMessageElement(name, messagetext){
     sp.appendChild(text);
     d.appendChild(sp);
     document.getElementById("messages_list").appendChild(d);
+    return d;
     /*
     <div class="uk-card uk-card-secondary msg uk-card-small">
         <span class="uk-text-middle uk-text-truncate msg_text" style="padding-left:1%">This is a message</span>
@@ -283,7 +297,7 @@ function contact_onpress(index){
     currentContact = contacts[index];
     currentContact.removePending();
     currentContact.div.setAttribute("class", "uk-background-primary");
-    updateMessagesDisplay();
+    updateMessagesDisplay(true);
     document.getElementById("current_contact_disp").innerHTML = "@"+currentContact.name;
 }
 function openContent(name){
@@ -311,6 +325,7 @@ function openSideMenu(name){
     innermenu.offsetHeight;
     innermenu.setAttribute("class", "uk-background uk-background-primary contact_area uk-animation-slide-top-small");
     openContent(name);
+    return menu;
 }
 function closeSideMenu(name){
     var menu = document.getElementById(name);
@@ -319,6 +334,7 @@ function closeSideMenu(name){
     innermenu.offsetHeight;
     innermenu.setAttribute("class", "uk-background uk-background-primary contact_area uk-animation-slide-left-small uk-animation-reverse");
     setTimeout(function(){closeContent(name);},750);
+    return menu;
     
 }
 function openNewContactMenu(){
@@ -348,14 +364,38 @@ function openAccountInfo(){
 function closeAccountInfo(){
     closeSideMenu("account_info");
 }
+function openContactEdit(contact){
+    openSideMenu("edit_contact");
+    var _name = document.getElementById("ec_name");
+    var _key = document.getElementById("ec_key");
+    var _sub = document.getElementById("ec_submit");
+    _name.value = contact.name;
+    _key.value=contact.key;
+    _sub.contacta = contact;
+}
+function closeContactEdit(){
+    closeSideMenu("edit_contact");
+}
+
+function submit_edit_contact(contact){
+    var _name = document.getElementById("ec_name").value;
+    var _key = document.getElementById("ec_key").value;
+    contact.delete();
+    addNewContact(_name,_key);
+    closeContactEdit();
+    stopEditingContacts();
+}
 
 
 function editContacts(){
+    document.getElementById("edit_contact_overlay").style.visibility="visible";
     for(var i = 0 ; i < contacts.length; i++){
         contacts[i].showEditMenu();
     }
 }
 function stopEditingContacts(){
+    document.getElementById("edit_contact_overlay").style.visibility="hidden";
+
     for(var i = 0 ; i < contacts.length; i++){
         contacts[i].hideEditMenu();
     }
