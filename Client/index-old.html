@@ -1,0 +1,224 @@
+<html>
+
+    <head>
+        <title>
+            SecuroServ
+        </title>
+        <script src="uikit/js/uikit.min.js"></script>
+        <script src="uikit/js/uikit-icons.min.js"></script>
+    </head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/common_class.css">
+    <link rel="stylesheet" href="uikit/css/uikit.min.css" />
+    <link rel="stylesheet" href="css/scrollbar.css" />
+
+    <body class="container" id="body">
+
+        <!-- redirect for # action-->
+        <script>
+            if(!location.href.endsWith("#")){
+                location.href+="?#";
+            }
+            //needs redirect so that forms will not reload the page
+        </script>
+
+
+        <script>
+            var custome_titlebar_error = false;
+            try{
+                //electron topbar
+                const customTitlebar = require('custom-electron-titlebar');
+                
+                new customTitlebar.Titlebar({
+                    backgroundColor: customTitlebar.Color.fromHex('#444'),
+                    top:-5
+                });
+            }catch(err){
+                custome_titlebar_error=true;
+            }
+        </script>
+
+
+        <div id="root" class="text_color"></div>
+
+        <!-- Load Cryptio -->
+        <script language="JavaScript" type="text/javascript" src="cryptio/jsbn.js"></script>
+        <script language="JavaScript" type="text/javascript" src="cryptio/random.js"></script>
+        <script language="JavaScript" type="text/javascript" src="cryptio/hash.js"></script>
+        <script language="JavaScript" type="text/javascript" src="cryptio/rsa.js"></script>
+        <script language="JavaScript" type="text/javascript" src="cryptio/aes.js"></script>
+        <script language="JavaScript" type="text/javascript" src="cryptio/api.js"></script>
+
+        <!-- Load React. -->
+        <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+        <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+
+        <!-- Load file saver. -->
+        <script src="FileSaver/FileSaver.js"></script>
+
+        <script src="jQuerry/jQuerry.js" ></script>
+
+        <script>
+            //global
+            let cookieData = document.cookie;
+            function setCookie(cname, cvalue, exdays) {
+                var d = new Date();
+                d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+                var expires = "expires="+d.toUTCString();
+                document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+            }
+
+            function deleteCookie(cname){
+                var d = new Date();
+                d.setTime(d.getTime() + (1));
+                var expires = "expires="+d.toUTCString();
+                document.cookie = cname + "=" + "_" + ";" + expires + ";path=/";
+            }
+
+            function getCookie(cname) {
+                var name = cname + "=";
+                var ca = document.cookie.split(';');
+                for(var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == ' ') {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(name) == 0) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+                return "";
+            }
+        </script>
+        <div id="topbanner-backingfb" class="uk-background uk-background-secondary"></div>
+        <div id="topbanner" class="uk-background-secondary">
+            <div id="over-contact" class="" uk-sticky>
+                <div style="top:1%;position:fixed;" class="uk-align-center">
+                    <a uk-icon="icon: plus" class="uk-margin-medium-left uk-icon-button"uk-tooltip="title:New Contact;pos:bottom" onclick="openNewContactMenu();"></a>
+                    <a uk-icon="icon: pencil" class="uk-margin-medium-left uk-icon-button"uk-tooltip="title:Edit Contacts;pos:bottom" onclick="toggleEdit();"></a>
+                    <a uk-icon="icon: cog" class="uk-margin-medium-left uk-icon-button" uk-tooltip="title:Settings;pos:bottom" onclick="openSettingsMenu();"></a>
+                    <a uk-icon="icon: user" class="uk-margin-medium-left uk-icon-button" uk-tooltip="title:Account;pos:bottom" onclick="openAccountInfo();"></a>
+                </div>
+            </div>
+            <div id="over-messages"class="uk-animation-slide-top-medium">
+                <h1 class="uk-text-large uk-text-primary uk-text-bold" id="current_contact_disp"></h1>
+            </div>
+        </div>
+        <div id="main_page">
+
+            <div id="messages_display" class="messages_display_area uk-background-primary">
+                <div id="edit_contact_overlay" style="visibility: hidden;min-width:333px;" class="uk-overlay-primary uk-position-cover">
+                
+                </div>
+                <div style="height:85%;overflow-y: auto;">
+                    <ol class="uk-list" id="messages_list"></ol>
+                </div>
+                
+                <div id="send_area" class="msg_input uk-background-secondary uk-animation-slide-bottom-medium">
+                    <form id="sender" action="#" onsubmit="messageBox_onEnter();">
+                        <input id="message" type="text" placeholder="Message" autocomplete="off" class="uk-input" maxlength="100">
+                    </form>
+                </div>
+    
+            </div>
+    
+    
+            <div id="contacts_display" class="contact_area uk-background-primary">
+                <ol class="uk-list" id="contact_list" style="padding-top:1%;padding-left:1%;">
+                    
+                </ol>
+            </div>
+    
+            
+    
+            
+    
+            
+            
+    
+            <div id="new_contact_menu" class="uk-overlay-primary uk-position-cover">
+                <div id="new_contact_menu_bg" class="uk-background uk-background-primary">
+                    <div id="ncm_head" class="uk-background-secondary" style="width:100%;height:5%;min-height:35px;">
+                        <a onclick="closeNewContactMenu();" class="uk-icon-button uk-margin-medium-left uk-margin-small-top" uk-icon="arrow-left"></a>
+                        <p class="uk-text uk-text-large uk-align-right uk-margin-medium-right uk-margin-small-top" style="left:50%">New Contact</p>
+                    </div>
+                    <form id="new_contact_form" action="#" style="width:100%;height:25%;position: relative;">
+                        <input id="new_contact_name" type="text" placeholder="Name" autocomplete="off" class="uk-input" style="width:90%;position: relative;">
+                        <input id="new_contact_key" type="text" placeholder="Encryption Key" autocomplete="off" class="uk-input" style="width:90%;position: relative;">
+                        
+                    </form>
+                    <button id="ncf_submit" class="uk-button uk-button-text" style="position:relative;width:90%;left:5%;" onclick="submit_new_contact();">Submit</button>
+                </div>
+            </div>
+
+
+
+
+            <div id="settings_menu" class="uk-overlay-primary uk-position-cover">
+                <div id="settings_menu_bg" class="uk-background uk-background-primary">
+                    <div id="sm_head" class="uk-background-secondary" style="width:100%;height:5%;min-height:35px;">
+                        <a onclick="closeSettingsMenu();" class="uk-icon-button uk-margin-medium-left uk-margin-small-top" uk-icon="arrow-left"></a>
+                        <p class="uk-text uk-text-large uk-align-right uk-margin-medium-right uk-margin-small-top" style="left:50%">Settings</p>
+                    </div>
+                    <form id="settings_form" action="#" style="width:100%;height:25%;position: relative;">
+                    </form>
+                </div>
+            </div>
+
+
+            <div id="account_info" class="uk-overlay-primary uk-position-cover">
+                <div id="account_info_bg" class="uk-background uk-background-primary">
+                    <div id="aim_head" class="uk-background-secondary" style="width:100%;height:5%;min-height:35px;">
+                        <a onclick="closeAccountInfo();" class="uk-icon-button uk-margin-medium-left uk-margin-small-top" uk-icon="arrow-left"></a>
+                        <p class="uk-text uk-text-large uk-align-right uk-margin-medium-right uk-margin-small-top" style="left:50%">Account Info</p>
+                    </div>
+                    <div id="aim_body">
+                        <div id="aim_pukey" class="uk-card uk-card-body uk-card-default uk-card-large">
+                            <h3 class="uk-card-title">Public Key</h3>
+                            <p id="aim_pukey_disp" class="uk-text" style="word-break: break-all"></p>
+                        </div>
+                        <button id="submit_new_key" class="uk-button uk-button-text" style="position:relative;width:90%;left:5%;" onclick="generateNewKeys();closeAccountInfo();openAccountInfo();">Generate New Keys</button>
+                        <button id="about_keys" class="uk-button uk-button-text uk-margin-medium-top"style="position:relative;width:90%;left:5%;"uk-toggle="target: #modal-about-keys">How are keys generated?</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="modal-about-keys" uk-modal>
+                <div class="uk-modal-dialog uk-modal-body">
+                    <h2 class="uk-modal-title">Headline</h2>
+                    <p>2048 bit RSA keys are generated using the javascript library: "Cryptio." For more information about how these are generated, see <a href="https://github.com/wwwtyro/cryptico" target="_blank">the cryptio github.</a></p>
+                    
+                    <p class="uk-text-right">
+                        <button class="uk-button uk-button-default uk-modal-close" type="button">Done</button>
+                    </p>
+                </div>
+            </div>
+
+            
+
+            <div id="edit_contact" class="uk-overlay-primary uk-position-cover">
+                <div id="edit_contact_bg" class="uk-background uk-background-primary">
+                    <div id="ec_head" class="uk-background-secondary" style="width:100%;height:5%;min-height:35px;">
+                        <a onclick="closeContactEdit();" class="uk-icon-button uk-margin-medium-left uk-margin-small-top" uk-icon="arrow-left"></a>
+                        <p class="uk-text uk-text-large uk-align-right uk-margin-medium-right uk-margin-small-top" style="left:50%">Edit Contact</p>
+                    </div>
+                    <form id="ec_form" action="#" style="width:100%;height:25%;position: relative;">
+                        <input id="ec_name" type="text" placeholder="Name" autocomplete="off" class="uk-input" style="width:90%;position: relative;">
+                        <input id="ec_key" type="text" placeholder="Encryption Key" autocomplete="off" class="uk-input" style="width:90%;position: relative;">
+                    </form>
+                    <button id="ec_submit" class="uk-button uk-button-text" style="position:relative;width:90%;left:5%;" onclick="submit_edit_contact(this.contacta);">Submit</button>
+                </div>
+            </div>
+
+
+        </div>
+
+
+        <script src="network.js"  type="text/javascript"></script>
+        <script src="main.js"  type="text/javascript"></script>
+    </body>
+
+</html>

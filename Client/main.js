@@ -51,7 +51,7 @@ try{
 
 }catch(err){
     isBrowswer=true;
-    document.getElementById("topbanner-backingfb").style.height="0px";
+
 }
 
 
@@ -96,7 +96,7 @@ class Contact{
     
 
     save(){
-        setCookie("]"+this.name,this.key,999999999);
+        return {"name": this.name, "key":this.key};
     }
 
     addPending(){
@@ -150,8 +150,10 @@ class Contact{
     }
 
     delete(){
-        deleteCookie("]"+this.name);
         document.getElementById("contact_list").removeChild(this.div);
+        contacts.splice(contacts.indexOf(this));
+        saveContacts();
+        loadContacts();
     }
 
     removePending(){
@@ -216,15 +218,36 @@ function sendMessage(message,contact){
     createMessageElement("You", message);
     return xhttp, outdata;
 }
+
+function saveContacts(){
+    var out = {};
+    for(var i = 0 ; i < contacts.length;i++){
+        out[""+i] = (JSON.stringify(contacts[i].save()));
+    }
+    window.localStorage.setItem("contacts", JSON.stringify(out));
+    window.localStorage.setItem("contactlength", contacts.length);
+}
+function loadContacts(){
+    contacts=[];
+    var dat = window.localStorage.getItem("contacts");
+    var jsonified = JSON.parse(dat);
+    var len = parseInt(window.localStorage.getItem("contactlength"));
+
+    for(var i = 0 ; i < len;i++){
+        var inf = JSON.parse(jsonified[""+i]);
+        contacts.push(new Contact(inf["key"], inf.name));
+    }
+    return jsonified;
+}
+
 function main(){
     //load contacts
-    var stringcontacts = document.cookie.split(";");
-    for(var i = 0 ; i < stringcontacts.length; i++){
-        if(stringcontacts[i].startsWith(" ]")){
-            var cinfo = stringcontacts[i].split("=");
-            contacts.push(new Contact(cinfo[1],cinfo[0].substring(2,cinfo[0].length)));
-        }
+
+    if(window.localStorage.getItem("contacts") == null){
+        window.localStorage.setItem("contacts", "");
     }
+
+    loadContacts();
     console.log(contacts);
     currentContact=contacts[0];
     document.getElementById("current_contact_disp").innerHTML = "@"+currentContact.name;
@@ -238,12 +261,12 @@ var contactlist = document.getElementById("contact_list");
 main();
 
 function createContactElement(name, index){
-    var diver = document.createElement("div");
-    diver.setAttribute("class", "uk-background uk-background-secondary");
-    var button = document.createElement("button");
+    var diver = document.createElement("li");
+    var button = document.createElement("div");
     button.appendChild(document.createTextNode(name));
     button.setAttribute("id", name);
-    button.setAttribute("class", "uk-button uk-button-secondary uk-button-large contact uk-text-truncate uk-animation-slide-right");
+    button.setAttribute("class", "uk-button uk-button-default uk-width-1-1");
+    button.setAttribute("uk-margin","")
     button.cindex = index;
     button.addEventListener('click', function(){
         contact_onpress(this.cindex);
@@ -258,7 +281,7 @@ function createContactElement(name, index){
 }
 
 function createMessageElement(name, messagetext){
-    var d = document.createElement("div");
+    var d = document.createElement("li");
     d.setAttribute("class","uk-card uk-card-secondary msg uk-card-small uk-animation-slide-left-small");
     var sp = document.createElement("span");
     sp.setAttribute("class", "uk-text-middle uk-text-truncate msg_text");
@@ -278,10 +301,9 @@ function createMessageElement(name, messagetext){
 
 function addNewContact(name, key){
     var newcontact = new Contact(key,name);
-    newcontact.save();
     contacts.push(newcontact);
     createContactElement(name,contacts.length-1);
-    
+    saveContacts();
 }
 
  //callbacks:
@@ -293,10 +315,9 @@ function messageBox_onEnter(){
 }
 
 function contact_onpress(index){
-    currentContact.div.setAttribute("class", "uk-background-secondary");
+    
     currentContact = contacts[index];
     currentContact.removePending();
-    currentContact.div.setAttribute("class", "uk-background-primary");
     updateMessagesDisplay(true);
     document.getElementById("current_contact_disp").innerHTML = "@"+currentContact.name;
 }
@@ -318,31 +339,7 @@ function closeContent(name){
     return elems;
 
 }
-function openSideMenu(name){
-    var menu = document.getElementById(name);
-    var innermenu = document.getElementById(name+"_bg");
-    innermenu.setAttribute("class", "");
-    innermenu.offsetHeight;
-    innermenu.setAttribute("class", "uk-background uk-background-primary contact_area uk-animation-slide-top-small");
-    openContent(name);
-    return menu;
-}
-function closeSideMenu(name){
-    var menu = document.getElementById(name);
-    var innermenu = document.getElementById(name+"_bg");
-    innermenu.setAttribute("class", "");
-    innermenu.offsetHeight;
-    innermenu.setAttribute("class", "uk-background uk-background-primary contact_area uk-animation-slide-left-small uk-animation-reverse");
-    setTimeout(function(){closeContent(name);},750);
-    return menu;
-    
-}
-function openNewContactMenu(){
-    openSideMenu("new_contact_menu");
-}
-function closeNewContactMenu(){
-    closeSideMenu("new_contact_menu");
-}
+
 function submit_new_contact(){
     var ncn = document.getElementById("new_contact_name").value;document.getElementById("new_contact_name").value="";
     var nck = document.getElementById("new_contact_key").value;document.getElementById("new_contact_key").value="";
@@ -350,20 +347,7 @@ function submit_new_contact(){
     addNewContact(ncn, nck);
     closeNewContactMenu();
 }
-function openSettingsMenu(){
-    openSideMenu("settings_menu");
-}
-function closeSettingsMenu(){
-    closeSideMenu("settings_menu");
-}
 
-function openAccountInfo(){
-    openSideMenu("account_info");
-    document.getElementById("aim_pukey_disp").innerHTML = getPublicKey();
-}
-function closeAccountInfo(){
-    closeSideMenu("account_info");
-}
 function openContactEdit(contact){
     openSideMenu("edit_contact");
     var _name = document.getElementById("ec_name");
