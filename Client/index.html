@@ -54,6 +54,7 @@
     <link rel="stylesheet" href="css/styles.css">
 
     <header>
+        
         <div id="head_grid" uk-grid>
             <div id="over_contacts" class="uk-background-secondary uk-width-1-4">
                 <ul class="uk-iconnav">
@@ -83,43 +84,42 @@
     <body>
 
         
-
-        <div id="main_grid" uk-grid class="uk-height-6-7" uk-height-viewport="expand: true">
+        <div id="main_grid" uk-grid class="uk-height-1-1 ">
 
             <div class="uk-width-1-4 uk-background-secondary">
 
                 <div class="uk-container uk-background-default"style="overflow-y:auto">
                     <h2>Contacts</h2>
                     <ul id="contact_list" class="uk-list">
+                        
+
                     </ul>
                 </div>
-
+                
             </div>
+            
             <div class="uk-width-3-4 uk-background-primary">
-                <div>
-
-                    <div class="uk-container uk-width-9-10" style="overflow-y:auto">
-                        <div class="">
-                            
-                            <ul id="messages_list" class="uk-list">
-                            </ul>
-                        </div> 
+                
+                
+                <div class="uk-container uk-width-9-10" style="overflow-y:auto;">
+                    <div class="">
                         
-                    </div>
+                        <ul id="messages_list" class="uk-list uk-flex-bottom">
+                        </ul>
+                    </div> 
                     
-    
-                    
-
-
                 </div>
+            
+                
+                
+
+
             </div>
 
         </div>
-        <div id="send_area" class="uk-position-bottom uk-height-1-7 uk-background-secondary uk-animation-slide-bottom-medium">
-            <form id="sender" action="#" onsubmit="messageBox_onEnter();">
-                <input id="message" type="text" placeholder="Message" autocomplete="off" class="uk-input" maxlength="100">
-            </form>
-        </div>
+        
+        
+        
         
         <div id="new_contact_menu" uk-offcanvas="mode: push; overlay: true">
             <div class="uk-offcanvas-bar">
