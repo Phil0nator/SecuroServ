@@ -265,7 +265,7 @@ function createContactElement(name, index){
     var button = document.createElement("div");
     button.appendChild(document.createTextNode(name));
     button.setAttribute("id", name);
-    button.setAttribute("class", "uk-button uk-button-default uk-width-1-1");
+    button.setAttribute("class", "uk-button uk-text-truncate uk-button-default uk-width-1-1");
     button.setAttribute("uk-margin","")
     button.cindex = index;
     button.addEventListener('click', function(){

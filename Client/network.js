@@ -85,6 +85,7 @@ function generateNewKeys(){
     saveAs(privBlob, "MyPrivateKey.txt");
     setCookie("prk", serializeRSAKey(RSAkey));
     setCookie("puk", cryptico.publicKeyString(RSAkey));
+    document.getElementById('aim_pukey_disp').innerHTML = getPublicKey();
 }
 
 function reGenerateKeys(priv){

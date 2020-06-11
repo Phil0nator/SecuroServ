@@ -13,6 +13,8 @@
         <script language="JavaScript" type="text/javascript" src="cryptio/rsa.js"></script>
         <script language="JavaScript" type="text/javascript" src="cryptio/aes.js"></script>
         <script language="JavaScript" type="text/javascript" src="cryptio/api.js"></script>
+        <!-- Load file saver. -->
+        <script src="FileSaver/FileSaver.js"></script>
         <!--Cookie scripts-->
         <script>
             //global
@@ -68,13 +70,13 @@
                         <i uk-icon="icon: cog" class="uk-flex uk-margin-small-left  uk-margin-small-top uk-margin-small-right uk-icon-button" uk-tooltip="title:Settings;pos:bottom"  uk-toggle="#settings_menu"></i>
                     </li>
                     <li>
-                        <i uk-icon="icon: user" class="uk-flex uk-margin-small-left uk-icon-button uk-margin-small-top uk-margin-small-right" uk-tooltip="title:Account;pos:bottom" uk-toggle="#account_menu"></i>
+                        <i uk-icon="icon: user" class="uk-flex uk-margin-small-left uk-icon-button uk-margin-small-top uk-margin-small-right" uk-tooltip="title:Account;pos:bottom" uk-toggle="#account_menu" onclick="document.getElementById('aim_pukey_disp').innerHTML = getPublicKey();"></i>
                     </li>
                 </ul>
             </div>
             <div id = "over_contacts" class="uk-background-secondary uk-width-3-4">
                 <div class="uk-container">
-                    <h1 class="uk-align-center" id="current_contact_disp"></h1>
+                    <h1 class="uk-align-center uk-text-primary uk-text-bold" id="current_contact_disp"></h1>
                 </div>
 
             </div>
@@ -82,40 +84,44 @@
     </header>
 
     <body>
+        <div id="total">
 
         
-        <div id="main_grid" uk-grid class="uk-height-1-1 ">
+        
+            <div id="main_grid" uk-grid class="uk-height-1-1 ">
 
-            <div class="uk-width-1-4 uk-background-secondary">
+                <div class="uk-width-1-4 uk-background-secondary">
 
-                <div class="uk-container uk-background-default"style="overflow-y:auto">
-                    <h2>Contacts</h2>
-                    <ul id="contact_list" class="uk-list">
-                        
+                    <div class="uk-container uk-background-default"style="overflow-y:auto">
+                        <h2>Contacts</h2>
+                        <ul id="contact_list" class="uk-list">
+                            
 
-                    </ul>
-                </div>
-                
-            </div>
-            
-            <div class="uk-width-3-4 uk-background-primary">
-                
-                
-                <div class="uk-container uk-width-9-10" style="overflow-y:auto;">
-                    <div class="">
-                        
-                        <ul id="messages_list" class="uk-list uk-flex-bottom">
                         </ul>
-                    </div> 
+                    </div>
                     
                 </div>
-            
                 
-                
-
+                <div class="uk-width-3-4 uk-background-primary uk-overflow-auto">
+                    
+                    
+                    <div class="uk-container uk-width-9-10" style="overflow-y:auto;">
+                        <div class="uk-overflow-auto">
+                            
+                            <ul id="messages_list" class="uk-list uk-flex-bottom uk-overflow-auto">
+                            </ul>
+                        </div> 
+                        
+                    </div>
+                </div>
 
             </div>
+        </div>
 
+        <div id="send_area" class="msg_input uk-background-secondary uk-animation-slide-bottom-medium">
+            <form id="sender" action="#" onsubmit="messageBox_onEnter();">
+                <input id="message" type="text" placeholder="Message" autocomplete="off" class="uk-input" maxlength="100">
+            </form>
         </div>
         
         
@@ -124,7 +130,7 @@
         <div id="new_contact_menu" uk-offcanvas="mode: push; overlay: true">
             <div class="uk-offcanvas-bar">
                 <button class="uk-offcanvas-close" type="button" uk-close></button>
-                <h1>New Contact</h1>
+                <h1 class="uk-heading-line"><span>New Contact</span></h1>
                 <form id="new_contact_form" action="#">
                     <input id="new_contact_name" type="text" placeholder="Name" autocomplete="off" class="uk-input">
                     <input id="new_contact_key" type="text" placeholder="Encryption Key" autocomplete="off" class="uk-input">
@@ -134,9 +140,9 @@
         </div>
         
         <div id="settings_menu" uk-offcanvas="mode: push; overlay: true">
-            <div class="uk-offcanvas-bar">
+            <div class="uk-offcanvas-bar ">
                 <button class="uk-offcanvas-close" type="button" uk-close></button>
-                <h1>Settings</h1>
+                <h1 class="uk-heading-line">Settings</h1>
             </div>
         </div>
 
@@ -151,14 +157,14 @@
         </div>
 
         <div id="account_menu" uk-offcanvas="mode:push;overlay:true">
-            <div class="uk-offcanvas-bar">
+            <div class="uk-offcanvas-bar ">
                 <button class="uk-offcanvas-close" type="button" uk-close></button>
-                <h1>Account Info</h1>
+                <h1 class="uk-heading-line">Account Info</h1>
                 <div id="aim_pukey" class="uk-card uk-card-body uk-card-default uk-card-large">
                     <h3 class="uk-card-title">Public Key</h3>
-                    <p id="aim_pukey_disp" class="uk-text" style="word-break: break-all"></p>
+                    <p id="aim_pukey_disp" class="uk-text-small " style="word-break: break-all"></p>
                 </div>
-                <button id="submit_new_key" class="uk-button uk-button-text" style="position:relative;width:90%;left:5%;" onclick="generateNewKeys();closeAccountInfo();openAccountInfo();">Generate New Keys</button>
+                <button id="submit_new_key" class="uk-button uk-button-text" style="position:relative;width:90%;left:5%;" onclick="generateNewKeys();">Generate New Keys</button>
                 <button id="about_keys" class="uk-button uk-button-text uk-margin-medium-top"style="position:relative;width:90%;left:5%;"uk-toggle="target: #modal-about-keys">How are keys generated?</button>
 
             </div>
