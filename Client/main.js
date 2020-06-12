@@ -11,7 +11,7 @@ try{
     const win = new BrowserWindow({
         width: 1920,
         height: 1080,
-        frame:false,
+        frame:true,
         webPreferences: {
         nodeIntegration: true
         }
@@ -189,6 +189,19 @@ function getMessages(){
     }
 }
 
+function cssOverride(name,rules){
+    var style = document.createElement('style');
+    style.type = 'text/css';
+    document.getElementsByTagName('head')[0].appendChild(style);
+    if(!(style.sheet||{}).insertRule) {
+        (style.styleSheet || style.sheet).addRule(name, rules);
+    }
+    else{
+        style.sheet.insertRule(name+"{"+rules+"}",0);
+    }
+}
+
+
 function updateMessagesDisplay(full){
     if(full){
         document.getElementById("messages_list").innerHTML = "";
@@ -248,7 +261,9 @@ function main(){
     if(window.localStorage.getItem("contacts") == null){
         window.localStorage.setItem("contacts", "");
     }
-
+    if(getPublicKey()==""||getPrivateKey()==""){
+        generateNewKeys();
+    }
     loadContacts();
     console.log(contacts);
     currentContact=contacts[0];

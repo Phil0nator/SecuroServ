@@ -82,7 +82,7 @@ function generateNewKeys(){
     var publicKey = cryptico.publicKeyString(RSAkey);
     pukey = publicKey;
     var privBlob = new Blob([serializeRSAKey(RSAkey)],{ type: "text/plain;charset=utf-8" });
-    saveAs(privBlob, "MyPrivateKey.txt");
+    //saveAs(privBlob, "MyPrivateKey.txt");
     setCookie("prk", serializeRSAKey(RSAkey));
     setCookie("puk", cryptico.publicKeyString(RSAkey));
     document.getElementById('aim_pukey_disp').innerHTML = getPublicKey();
