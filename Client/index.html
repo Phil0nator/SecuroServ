@@ -56,7 +56,7 @@
     <link rel="stylesheet" href="css/styles.css">
 
     <header>
-        
+        <div id="padding-electron" style="height:30px"></div>
         <div id="head_grid" uk-grid>
             <div id="over_contacts" class="uk-background-secondary uk-width-1-4">
                 <ul class="uk-iconnav">
@@ -88,41 +88,46 @@
 
         
         
-            <div id="main_grid" uk-grid class="uk-height-1-1 ">
+            <div id="main_grid" uk-grid class=" uk-grid-collapse">
 
                 <div class="uk-width-1-4 uk-background-secondary">
 
-                    <div class="uk-container uk-background-default"style="overflow-y:auto">
-                        <h2>Contacts</h2>
-                        <ul id="contact_list" class="uk-list">
+                    <div class="uk-container uk-background-secondary uk-panel-scrollable" style="resize:none;" uk-height-viewport="offset-bottom:0;offset-top:true;">
+                        <h2 class="uk-heading uk-text-bold uk-light">Contacts</h2>
+                        <ul id="contact_list" class="uk-list uk-background-secondary">
                             
 
                         </ul>
                     </div>
                     
                 </div>
-                
-                <div class="uk-width-3-4 uk-background-primary uk-overflow-auto">
-                    
-                    
-                    <div class="uk-container uk-width-9-10" style="overflow-y:auto;">
-                        <div class="uk-overflow-auto">
-                            
-                            <ul id="messages_list" class="uk-list uk-flex-bottom uk-overflow-auto">
-                            </ul>
-                        </div> 
-                        
-                    </div>
-                </div>
+            
+                <div class="uk-width-3-4 uk-background-primary uk-overflow-auto " >
+                    <ol>
 
+                        <li>
+                            <div class="uk-panel-scrollable " uk-height-viewport="offset-bottom: 4; offset-top:true;"style="resize: none;">
+                                <div>
+                                    <ul id="messages_list" class="uk-list uk-overflow-auto"> </ul>
+                                </div> 
+                                
+                            </div>
+                        </li>
+                        <li>
+                            <div id="send_area" class="msg_input uk-background-secondary uk-animation-slide-bottom-medium uk-display-block" uk-height-viewport="expand:true" style="bottom:0px;height:10%">
+                                <form action="#" onsubmit="messageBox_onEnter();">
+                                <input id="message" type="text" placeholder="Message" autocomplete="off" class="uk-input" maxlength="100" >
+                                </form>
+                            </div>
+                        </li>
+                        
+                    </ol>
+
+                </div>
             </div>
         </div>
 
-        <div id="send_area" class="msg_input uk-background-secondary uk-animation-slide-bottom-medium">
-            <form id="sender" action="#" onsubmit="messageBox_onEnter();">
-                <input id="message" type="text" placeholder="Message" autocomplete="off" class="uk-input" maxlength="100">
-            </form>
-        </div>
+        
         
         
         
@@ -131,7 +136,7 @@
             <div class="uk-offcanvas-bar">
                 <button class="uk-offcanvas-close" type="button" uk-close></button>
                 <h1 class="uk-heading-line"><span>New Contact</span></h1>
-                <form id="new_contact_form" action="#">
+                <form id="sender" action="#" onsubmit="messageBox_onEnter();">
                     <input id="new_contact_name" type="text" placeholder="Name" autocomplete="off" class="uk-input">
                     <input id="new_contact_key" type="text" placeholder="Encryption Key" autocomplete="off" class="uk-input">
                 </form>

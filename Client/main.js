@@ -265,7 +265,7 @@ function createContactElement(name, index){
     var button = document.createElement("div");
     button.appendChild(document.createTextNode(name));
     button.setAttribute("id", name);
-    button.setAttribute("class", "uk-button uk-text-truncate uk-button-default uk-width-1-1");
+    button.setAttribute("class", "uk-button uk-text-truncate uk-button-secondary uk-background-secondary uk-width-1-1 uk-box-shadow-small uk-box-shadow-hover-large");
     button.setAttribute("uk-margin","")
     button.cindex = index;
     button.addEventListener('click', function(){
@@ -282,7 +282,7 @@ function createContactElement(name, index){
 
 function createMessageElement(name, messagetext){
     var d = document.createElement("li");
-    d.setAttribute("class","uk-card uk-card-secondary msg uk-card-small uk-animation-slide-left-small");
+    d.setAttribute("class","uk-card uk-card-secondary msg uk-card-small uk-box-shadow-small uk-box-shadow-hover-large uk-animation-slide-left-small");
     var sp = document.createElement("span");
     sp.setAttribute("class", "uk-text-middle uk-text-truncate msg_text");
     sp.setAttribute("style", "padding-left:1%");
