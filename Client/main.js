@@ -67,7 +67,9 @@ try{
 
 
 
-
+if(!isBrowswer){
+    document.getElementById("padding-electron").style="height:30px";
+}
 
 
 
@@ -87,7 +89,7 @@ class Contact{
     constructor(key, name){
         this.key = key;
         this.name=name;
-        this.messages=["This is the beggining of your conversation"];
+        this.messages=["SecuroServ: This is the beggining of your conversation"];
         this.button = undefined;
         this.div = undefined;
         this.pending=0;
@@ -266,7 +268,7 @@ function createContactElement(name, index){
     button.appendChild(document.createTextNode(name));
     button.setAttribute("id", name);
     button.setAttribute("class", "uk-button uk-text-truncate uk-button-secondary uk-background-secondary uk-width-1-1 uk-box-shadow-small uk-box-shadow-hover-large");
-    button.setAttribute("uk-margin","")
+    button.setAttribute("uk-margin","");
     button.cindex = index;
     button.addEventListener('click', function(){
         contact_onpress(this.cindex);
@@ -281,10 +283,22 @@ function createContactElement(name, index){
 }
 
 function createMessageElement(name, messagetext){
+    var color;
+    if(name == currentContact.name){
+        color = "uk-text-success";
+    }else if(name=="SecuroServ"){
+        color="uk-text-warning uk-text-bold";
+    }
+    else{
+        color="uk-text-primary";
+    }
+    console.log(color);
+
     var d = document.createElement("li");
-    d.setAttribute("class","uk-card uk-card-secondary msg uk-card-small uk-box-shadow-small uk-box-shadow-hover-large uk-animation-slide-left-small");
-    var sp = document.createElement("span");
-    sp.setAttribute("class", "uk-text-middle uk-text-truncate msg_text");
+    d.setAttribute("class","uk-card-secondary uk-card-large uk-animation-slide-left-small");
+    d.style.height=50;
+    var sp = document.createElement("p");
+    sp.setAttribute("class", "uk-text uk-text-middle "+color);
     sp.setAttribute("style", "padding-left:1%");
     sp.setAttribute("uk-tooltip", "title:"+new Date(Date.now())+";pos:bottom-right");
     var text = document.createTextNode(name+" : "+messagetext);
@@ -310,7 +324,7 @@ function addNewContact(name, key){
 function messageBox_onEnter(){
     console.log(sendMessage(document.getElementById("message").value, currentContact));
     document.getElementById("message").value="";
-    document.getElementById("messages_display").scrollBy(0,100);
+    document.getElementById("scroller").scrollBy(0,100);
     return true;
 }
 

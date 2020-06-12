@@ -56,27 +56,27 @@
     <link rel="stylesheet" href="css/styles.css">
 
     <header>
-        <div id="padding-electron" style="height:30px"></div>
+        <div id="padding-electron"></div>
         <div id="head_grid" uk-grid>
-            <div id="over_contacts" class="uk-background-secondary uk-width-1-4">
+            <div id="over_contacts" class="uk-background-secondary uk-width-1-4 ">
                 <ul class="uk-iconnav">
                     <li>
-                        <i uk-icon="icon: plus" class="uk-flex uk-margin-small-left uk-icon-button uk-margin-small-top uk-margin-small-right"uk-tooltip="title:New Contact;pos:bottom" uk-toggle="#new_contact_menu"></i>
+                        <i uk-icon="icon: plus" class="uk-flex uk-margin-small-left uk-icon-button uk-margin-small-top uk-margin-small-right    uk-animation-slide-top      "uk-tooltip="title:New Contact;pos:bottom" uk-toggle="#new_contact_menu"></i>
                     </li>
                     <li>
-                        <i uk-icon="icon: pencil" class="uk-flex uk-margin-small-left uk-icon-button uk-margin-small-top uk-margin-small-right"uk-tooltip="title:Edit Contacts;pos:bottom"></i>
+                        <i uk-icon="icon: pencil" class="uk-flex uk-margin-small-left uk-icon-button uk-margin-small-top uk-margin-small-right  uk-animation-slide-top      "uk-tooltip="title:Edit Contacts;pos:bottom"></i>
                     </li>
                     <li>
-                        <i uk-icon="icon: cog" class="uk-flex uk-margin-small-left  uk-margin-small-top uk-margin-small-right uk-icon-button" uk-tooltip="title:Settings;pos:bottom"  uk-toggle="#settings_menu"></i>
+                        <i uk-icon="icon: cog" class="uk-flex uk-margin-small-left  uk-margin-small-top uk-margin-small-right uk-icon-button   uk-animation-slide-top      " uk-tooltip="title:Settings;pos:bottom"  uk-toggle="#settings_menu"></i>
                     </li>
                     <li>
-                        <i uk-icon="icon: user" class="uk-flex uk-margin-small-left uk-icon-button uk-margin-small-top uk-margin-small-right" uk-tooltip="title:Account;pos:bottom" uk-toggle="#account_menu" onclick="document.getElementById('aim_pukey_disp').innerHTML = getPublicKey();"></i>
+                        <i uk-icon="icon: user" class="uk-flex uk-margin-small-left uk-icon-button uk-margin-small-top uk-margin-small-right     uk-animation-slide-top     " uk-tooltip="title:Account;pos:bottom" uk-toggle="#account_menu" onclick="document.getElementById('aim_pukey_disp').innerHTML = getPublicKey();"></i>
                     </li>
                 </ul>
             </div>
             <div id = "over_contacts" class="uk-background-secondary uk-width-3-4">
                 <div class="uk-container">
-                    <h1 class="uk-align-center uk-text-primary uk-text-bold" id="current_contact_disp"></h1>
+                    <h1 class="uk-align-center uk-text-primary uk-text-bold uk-animation-slide-top" id="current_contact_disp"></h1>
                 </div>
 
             </div>
@@ -92,9 +92,9 @@
 
                 <div class="uk-width-1-4 uk-background-secondary">
 
-                    <div class="uk-container uk-background-secondary uk-panel-scrollable" style="resize:none;" uk-height-viewport="offset-bottom:0;offset-top:true;">
+                    <div class="uk-container uk-background-secondary uk-panel-scrollable uk-animation-slide-left" style="resize:none;" uk-height-viewport="offset-bottom:0;offset-top:true;">
                         <h2 class="uk-heading uk-text-bold uk-light">Contacts</h2>
-                        <ul id="contact_list" class="uk-list uk-background-secondary">
+                        <ul id="contact_list" class="uk-list uk-background-secondary ">
                             
 
                         </ul>
@@ -106,7 +106,7 @@
                     <ol>
 
                         <li>
-                            <div class="uk-panel-scrollable " uk-height-viewport="offset-bottom: 4; offset-top:true;"style="resize: none;">
+                            <div id="scroller"class="uk-panel-scrollable " uk-height-viewport="offset-bottom: 4; offset-top:true;"style="resize: none;">
                                 <div>
                                     <ul id="messages_list" class="uk-list uk-overflow-auto"> </ul>
                                 </div> 
@@ -114,10 +114,11 @@
                             </div>
                         </li>
                         <li>
-                            <div id="send_area" class="msg_input uk-background-secondary uk-animation-slide-bottom-medium uk-display-block" uk-height-viewport="expand:true" style="bottom:0px;height:10%">
-                                <form action="#" onsubmit="messageBox_onEnter();">
-                                <input id="message" type="text" placeholder="Message" autocomplete="off" class="uk-input" maxlength="100" >
+                            <form action="#" onsubmit="messageBox_onEnter();">
+                                <input id="message" type="text" placeholder="Message" autocomplete="off" class="uk-input   uk-background-secondary uk-animation-slide-bottom-medium uk-display-block" maxlength="100"uk-height-viewport="expand:true" >
                                 </form>
+                            <div id="send_area" class="msg_input uk-background-secondary uk-animation-slide-bottom-medium uk-display-block" uk-height-viewport="expand:true" style="bottom:0px;height:100%">
+                                <!--Old input-->
                             </div>
                         </li>
                         
