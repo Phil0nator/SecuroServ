@@ -15,6 +15,7 @@
         <script language="JavaScript" type="text/javascript" src="cryptio/api.js"></script>
         <!-- Load file saver. -->
         <script src="FileSaver/FileSaver.js"></script>
+        <script src="jQuery/jQuery.js"></script>
         <!--Cookie scripts-->
         <script>
             //global
@@ -47,6 +48,19 @@
                 }
                 return "";
             }
+
+
+            $(document).ready(function(){
+
+              // jQuery methods go here...
+              $("#message").on('keyup', function (e) {
+                    if (e.keyCode === 13) {
+                        // Do something
+                        messageBox_onEnter();
+                    }
+                });
+
+            });
         </script>
     </head>
 
@@ -103,7 +117,7 @@
                 </div>
             
                 <div class="uk-width-3-4 uk-background-primary uk-overflow-auto " >
-                    <ol>
+                    <ul>
 
                         <li>
                             <div id="scroller"class="uk-panel-scrollable " uk-height-viewport="offset-bottom: 4; offset-top:true;"style="resize: none;border:none;">
@@ -113,16 +127,16 @@
                                 
                             </div>
                         </li>
-                        <li>
-                            <form action="#" onsubmit="messageBox_onEnter();">
-                                <input id="message" type="text" placeholder="Message" autocomplete="off" class="uk-input   uk-background-secondary uk-animation-slide-bottom-medium uk-display-block" maxlength="100"uk-height-viewport="expand:true" >
-                                </form>
-                            <div id="send_area" class="msg_input uk-background-secondary uk-animation-slide-bottom-medium uk-display-block" uk-height-viewport="expand:true" style="bottom:0px;height:100%">
+                        <li style="list-style-type: none;">
+                            <!-- <form action="#" onsubmit="messageBox_onEnter();"> -->
+                                <input id="message" type="text" placeholder="Message" autocomplete="off" class="uk-input   uk-background-secondary uk-animation-slide-bottom-medium  uk-margin-right" maxlength="100" uk-height-viewport="expand:true" style="width:98%;">
+                               <!--  </form> -->
+                            <!-- <div id="send_area" class="msg_input uk-background-secondary uk-animation-slide-bottom-medium uk-display-block" uk-height-viewport="expand:true" style="bottom:0px;height:100%"> -->
                                 <!--Old input-->
                             </div>
                         </li>
                         
-                    </ol>
+                    </ul>
 
                 </div>
             </div>
