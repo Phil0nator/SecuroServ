@@ -17,6 +17,7 @@
         <script src="FileSaver/FileSaver.js"></script>
         <script src="jQuery/jQuery.js"></script>
         <!--Cookie scripts-->
+        
         <script>
             //global
             let cookieData = document.cookie;
@@ -78,7 +79,7 @@
                         <i uk-icon="icon: plus" class="uk-flex uk-margin-small-left uk-icon-button uk-margin-small-top uk-margin-small-right    uk-animation-slide-top      "uk-tooltip="title:New Contact;pos:bottom" uk-toggle="#new_contact_menu"></i>
                     </li>
                     <li>
-                        <i uk-icon="icon: pencil" class="uk-flex uk-margin-small-left uk-icon-button uk-margin-small-top uk-margin-small-right  uk-animation-slide-top      "uk-tooltip="title:Edit Contacts;pos:bottom"></i>
+                        <i uk-icon="icon: pencil" class="uk-flex uk-margin-small-left uk-icon-button uk-margin-small-top uk-margin-small-right  uk-animation-slide-top      "uk-tooltip="title:Edit Contacts;pos:bottom" onclick="toggleEdit();"></i>
                     </li>
                     <li>
                         <i uk-icon="icon: cog" class="uk-flex uk-margin-small-left  uk-margin-small-top uk-margin-small-right uk-icon-button   uk-animation-slide-top      " uk-tooltip="title:Settings;pos:bottom"  uk-toggle="#settings_menu"></i>
@@ -151,18 +152,30 @@
             <div class="uk-offcanvas-bar">
                 <button class="uk-offcanvas-close" type="button" uk-close></button>
                 <h1 class="uk-heading-line"><span>New Contact</span></h1>
-                <form id="sender" action="#" onsubmit="messageBox_onEnter();">
                     <input id="new_contact_name" type="text" placeholder="Name" autocomplete="off" class="uk-input">
                     <input id="new_contact_key" type="text" placeholder="Encryption Key" autocomplete="off" class="uk-input">
-                </form>
-                <button id="ncf_submit" class="uk-button uk-button-text uk-width-1-1"onclick="submit_new_contact();">Submit</button>
+                <button id="ncf_submit" class="uk-button uk-button-text uk-width-1-1 uk-margin"onclick="submit_new_contact();">Submit</button>
             </div>
         </div>
+
+        <div id="edit_contact_menu" uk-offcanvas="mode: push; overlay: true">
+            <div class="uk-offcanvas-bar">
+                <button class="uk-offcanvas-close" type="button" uk-close></button>
+                <h1 class="uk-heading-line"><span>Edit Contact</span></h1>
+                    <input id="ec_name" type="text" placeholder="Name" autocomplete="off" class="uk-input">
+                    <input id="ec_key" type="text" placeholder="Encryption Key" autocomplete="off" class="uk-input">
+                <button id="ec_submit" class="uk-button uk-button-text uk-width-1-1 uk-margin"onclick="submit_edit_contact(this.contacta);">Apply</button>
+            </div>
+        </div>
+
         
         <div id="settings_menu" uk-offcanvas="mode: push; overlay: true">
             <div class="uk-offcanvas-bar ">
                 <button class="uk-offcanvas-close" type="button" uk-close></button>
                 <h1 class="uk-heading-line">Settings</h1>
+                <div>
+                    Coming soon...
+                </div>
             </div>
         </div>
 

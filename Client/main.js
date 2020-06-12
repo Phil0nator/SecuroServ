@@ -9,9 +9,9 @@ try{
     function createWindow () {
         // Create the browser window.
         const win = new BrowserWindow({
-            width: 1920,
-            height: 1080,
-            frame:false,
+            width: 1900,
+            height: 1000,
+            frame:true,
             webPreferences: {
             nodeIntegration: true
             }
@@ -69,6 +69,18 @@ try{
 
 if(!isBrowswer){
     document.getElementById("padding-electron").style="height:30px";
+    var custome_titlebar_error = false;
+    try{
+        //electron topbar
+        const customTitlebar = require('custom-electron-titlebar');
+        
+        new customTitlebar.Titlebar({
+            backgroundColor: customTitlebar.Color.fromHex('#444'),
+            top:-5
+        });
+    }catch(err){
+        custome_titlebar_error=true;
+    }
 }
 
 
@@ -140,6 +152,7 @@ class Contact{
         option.setAttribute("uk-icon", "icon: settings");
         option.setAttribute("class", "uk-icon-button uk-margin-small-left");
         option.setAttribute("uk-tooltip","title:Configure "+this.name+";pos:bottom-left");
+        option.setAttribute("uk-toggle","#edit_contact_menu");
         option.contacta =this;
         option.onclick=function(){openContactEdit(this.contacta);}
         menu.appendChild(option);
@@ -148,7 +161,7 @@ class Contact{
     }
 
     hideEditMenu(){
-        this.div.removeChild(document.getElementById(this.name+"editmenu"));
+        document.getElementById("contact_"+this.name).removeChild(document.getElementById(this.name+"editmenu"));
     }
 
     delete(){
@@ -265,7 +278,6 @@ function main(){
         generateNewKeys();
     }
     loadContacts();
-    console.log(contacts);
     currentContact=contacts[0];
     document.getElementById("current_contact_disp").innerHTML = "@"+currentContact.name;
     for(var i = 0 ; i < contacts.length;i++){
@@ -290,7 +302,8 @@ function createContactElement(name, index){
     });
     contacts[index].button = button;
     contacts[index].div = diver;
-    diver.appendChild(button)
+    diver.appendChild(button);
+    diver.setAttribute("id","contact_"+name);
     contactlist.appendChild(diver);
     /*
     <button id=name class = "uk-button uk-button-secondary uk-button-large contact uk-text-truncate uk-animation-slide-right"></button>
@@ -307,7 +320,6 @@ function createMessageElement(name, messagetext){
     else{
         color="uk-text-primary";
     }
-    console.log(color);
 
     var d = document.createElement("li");
     d.setAttribute("class","uk-card-secondary uk-card-large uk-animation-slide-left-small");
@@ -337,7 +349,7 @@ function addNewContact(name, key){
 
  //callbacks:
 function messageBox_onEnter(){
-    console.log(sendMessage(document.getElementById("message").value, currentContact));
+    sendMessage(document.getElementById("message").value, currentContact);
     document.getElementById("message").value="";
     document.getElementById("scroller").scrollBy(0,100);
     return true;
@@ -378,7 +390,6 @@ function submit_new_contact(){
 }
 
 function openContactEdit(contact){
-    openSideMenu("edit_contact");
     var _name = document.getElementById("ec_name");
     var _key = document.getElementById("ec_key");
     var _sub = document.getElementById("ec_submit");
@@ -386,29 +397,22 @@ function openContactEdit(contact){
     _key.value=contact.key;
     _sub.contacta = contact;
 }
-function closeContactEdit(){
-    closeSideMenu("edit_contact");
-}
 
 function submit_edit_contact(contact){
     var _name = document.getElementById("ec_name").value;
     var _key = document.getElementById("ec_key").value;
     contact.delete();
     addNewContact(_name,_key);
-    closeContactEdit();
     stopEditingContacts();
 }
 
 
 function editContacts(){
-    document.getElementById("edit_contact_overlay").style.visibility="visible";
     for(var i = 0 ; i < contacts.length; i++){
         contacts[i].showEditMenu();
     }
 }
 function stopEditingContacts(){
-    document.getElementById("edit_contact_overlay").style.visibility="hidden";
-
     for(var i = 0 ; i < contacts.length; i++){
         contacts[i].hideEditMenu();
     }

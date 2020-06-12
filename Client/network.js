@@ -2,7 +2,7 @@
 function handleMessages(msgs){
     //console.log(msgs);
     messages = msgs.split(",");
-    var prkey = getPrivateKey();
+    const prkey = getPrivateKey();
     for(var i = 0 ; i < messages.length;i++){
         var attempt = cryptico.decrypt(messages[i], prkey);
         if( attempt["status"] == "failure" ){
@@ -75,39 +75,37 @@ function createRandomString(){
 }
 
 function generateNewKeys(){
-    var passPhrase = createRandomString(); 
-    var bits = 2048; 
-    var RSAkey = cryptico.generateRSAKey(passPhrase, bits);
+    const passPhrase = createRandomString(); 
+    const bits = 2048; 
+    const RSAkey = cryptico.generateRSAKey(passPhrase, bits);
     prkey = RSAkey;
-    var publicKey = cryptico.publicKeyString(RSAkey);
+    const publicKey = cryptico.publicKeyString(RSAkey);
     pukey = publicKey;
-    var privBlob = new Blob([serializeRSAKey(RSAkey)],{ type: "text/plain;charset=utf-8" });
-    //saveAs(privBlob, "MyPrivateKey.txt");
-    setCookie("prk", serializeRSAKey(RSAkey));
-    setCookie("puk", cryptico.publicKeyString(RSAkey));
+    window.localStorage.setItem("prk",serializeRSAKey(RSAkey));
+    window.localStorage.setItem("puk",cryptico.publicKeyString(RSAkey));
     document.getElementById('aim_pukey_disp').innerHTML = getPublicKey();
 }
 
 function reGenerateKeys(priv){
 
-    var out= cryptico.publicKeyString(priv);
+    const out= cryptico.publicKeyString(priv);
     setCookie("prk", cryptico.privateKeyString(priv));
     setCookie("puk", cryptico.publicKeyString(out));
     return out;
 }
 
 function getPrivateKey(){
-    return deserializeRSAKey(getCookie("prk"));
+    return window.localStorage.getItem("prk");
 }
 function getPublicKey(){
-    return getCookie("puk");
+    return window.localStorage.getItem("puk");
 }
 
 function sendPlainText(text){
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
+            //console.log(this.responseText);
         }
     };
     
