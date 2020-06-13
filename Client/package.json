@@ -1,12 +1,14 @@
 {
-  "name": "your-app",
+  "name": "SecuroServ",
   "version": "0.1.0",
-  "main": "main.js",
+  "main": "electron.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "run":"main.js"
   },
   "devDependencies": {
-    "electron": "^9.0.3"
+    "electron": "^9.0.3",
+    "electron-packager": "^14.2.1"
   },
   "dependencies": {
     "custom-electron-titlebar": "^3.2.2-hotfix62"

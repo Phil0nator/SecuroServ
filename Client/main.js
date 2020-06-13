@@ -1,99 +1,16 @@
+
 let port = "8000";
 //let addr = "http://68.123.14.86";
 let addr = "http://70.142.145.111";
 let isBrowswer = false;
+
+
 try{
-    //electron
-    const { app, BrowserWindow } = require('electron')
-
-    function createWindow () {
-        // Create the browser window.
-        const win = new BrowserWindow({
-            width: 1900,
-            height: 1000,
-            frame:true,
-            webPreferences: {
-            nodeIntegration: true
-            }
-        })
-
-        // and load the index.html of the app.
-        win.loadFile('index.html')
-
-        // Open the DevTools.
-        
-    }
-
-    // This method will be called when Electron has finished
-    // initialization and is ready to create browser windows.
-    // Some APIs can only be used after this event occurs.
-    app.whenReady().then(createWindow)
-
-    // Quit when all windows are closed.
-    app.on('window-all-closed', () => {
-        // On macOS it is common for applications and their menu bar
-        // to stay active until the user quits explicitly with Cmd + Q
-        if (process.platform !== 'darwin') {
-            app.quit()
-        }
-    })
-
-    app.on('activate', () => {
-        // On macOS it's common to re-create a window in the app when the
-        // dock icon is clicked and there are no other windows open.
-        if (BrowserWindow.getAllWindows().length === 0) {
-            createWindow()
-        }
-    })
-
-    // In this file you can include the rest of your app's specific main process
-    // code. You can also put them in separate files and require them here.
-
+	isBrowser=!browser_probe();
+	
 }catch(err){
-    isBrowswer=true;
-
+	isBrowser=true;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-if(!isBrowswer){
-    document.getElementById("padding-electron").style="height:30px";
-    var custome_titlebar_error = false;
-    try{
-        //electron topbar
-        const customTitlebar = require('custom-electron-titlebar');
-        
-        new customTitlebar.Titlebar({
-            backgroundColor: customTitlebar.Color.fromHex('#444'),
-            top:-5
-        });
-    }catch(err){
-        custome_titlebar_error=true;
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 class Contact{
@@ -101,7 +18,7 @@ class Contact{
     constructor(key, name){
         this.key = key;
         this.name=name;
-        this.messages=["SecuroServ: This is the beggining of your conversation"];
+        this.messages=["This is the beginning of your conversation"];
         this.button = undefined;
         this.div = undefined;
         this.pending=0;
@@ -165,10 +82,12 @@ class Contact{
     }
 
     delete(){
+    	console.log(contacts);
         document.getElementById("contact_list").removeChild(this.div);
-        contacts.splice(contacts.indexOf(this));
+        contacts.splice(contacts.indexOf(this),1);
         saveContacts();
         loadContacts();
+        console.log(contacts);
     }
 
     removePending(){
@@ -216,9 +135,9 @@ function cssOverride(name,rules){
 
 
 function updateMessagesDisplay(full){
+
     if(full){
-        document.getElementById("messages_list").innerHTML = "";
-        
+        document.getElementById("messages_list").innerHTML="";
         for(var i = 0;i < currentContact.messageElements.length;i++){
             document.getElementById("messages_list").appendChild(currentContact.messageElements[i]);
         }
@@ -264,6 +183,8 @@ function loadContacts(){
     for(var i = 0 ; i < len;i++){
         var inf = JSON.parse(jsonified[""+i]);
         contacts.push(new Contact(inf["key"], inf.name));
+	currentContact=contacts[i];	contacts[i].messageElements.push(createMessageElement("SecuroServ",contacts[i].messages[0]));
+        document.getElementById("messages_list").innerHTML = "";
     }
     return jsonified;
 }
@@ -277,7 +198,17 @@ function main(){
     if(getPublicKey()==""||getPrivateKey()==""){
         generateNewKeys();
     }
-    loadContacts();
+    try{
+    	loadContacts();
+    	if(contacts.length<1){
+    	addNewContact("Default Contact", "<insert key>");
+    	}
+    }catch(err){
+    	addNewContact("Default Contact", "<insert key>");
+    }
+    
+    
+    
     currentContact=contacts[0];
     document.getElementById("current_contact_disp").innerHTML = "@"+currentContact.name;
     for(var i = 0 ; i < contacts.length;i++){
@@ -286,8 +217,10 @@ function main(){
     setInterval(getMessages,5000);
 
 }
-var contactlist = document.getElementById("contact_list");
-main();
+if(isBrowser){
+	var contactlist = document.getElementById("contact_list");
+	main();
+}
 
 function createContactElement(name, index){
     var diver = document.createElement("li");
@@ -386,7 +319,7 @@ function submit_new_contact(){
     var nck = document.getElementById("new_contact_key").value;document.getElementById("new_contact_key").value="";
     
     addNewContact(ncn, nck);
-    closeNewContactMenu();
+
 }
 
 function openContactEdit(contact){
@@ -421,10 +354,14 @@ function stopEditingContacts(){
 let editToggle = false;
 
 function toggleEdit(){
-    editToggle=!editToggle;
-    if(editToggle){
-        editContacts();
-    }else{
-        stopEditingContacts();
+    try{
+	    editToggle=!editToggle;
+	    if(editToggle){
+		editContacts();
+	    }else{
+		stopEditingContacts();
+	    }
+    }catch(err){
+    	window.location.reload();
     }
 }
