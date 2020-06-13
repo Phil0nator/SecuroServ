@@ -1,8 +1,7 @@
-
+//define server location
 let port = "8000";
-//let addr = "http://68.123.14.86";
 let addr = "http://70.142.145.111";
-let isBrowswer = false;
+let isBrowswer = false; //electron compatibility
 
 
 try{
@@ -12,7 +11,7 @@ try{
 	isBrowser=true;
 }
 
-
+//Class to contain contact info and DOM elements
 class Contact{
 
     constructor(key, name){
@@ -22,14 +21,14 @@ class Contact{
         this.button = undefined;
         this.div = undefined;
         this.pending=0;
-        this.messageElements = [];
+        this.messageElements = []; //existing DOM elements associated with messages for this contact
     }
     
 
     save(){
         return {"name": this.name, "key":this.key};
     }
-
+    //Pending messages badge
     addPending(){
         this.pending++;
         var alreadyPending = document.getElementById(this.name+"pendingSymbol");
@@ -46,12 +45,6 @@ class Contact{
     }
 
     showEditMenu(){
-        /*
-        
-        <div id="name+editMenu">
-            <a uk-icon="icon: minus" class="uk-margin-medium-left uk-icon-button"uk-tooltip="title:Remove Contact;pos:bottom" onclick=""></a>
-        
-        */
 
         var menu = document.createElement("div");
         
@@ -97,11 +90,14 @@ class Contact{
     }
 
 }
-let pukey;
-let prkey;
-let currentContact;
-let contacts= new Array(0);
-
+var pukey;
+var prkey;
+var currentContact;
+var contacts= new Array(0);
+/**
+ * Request existing messages from server, pass to handleMessages
+ * @see handleMessages(string)
+ */
 function getMessages(){
     try{
         var xhttp = new XMLHttpRequest();
@@ -133,7 +129,10 @@ function cssOverride(name,rules){
     }
 }
 
-
+/**
+ * Update DOM elements in the messages list based on the contact that the user has selected.
+ * @param {boolean} full weather or not to fully re-render DOM elements
+ */
 function updateMessagesDisplay(full){
 
     if(full){
@@ -148,13 +147,16 @@ function updateMessagesDisplay(full){
         currentContact.messageElements.push(createMessageElement(p[0],p[1]));
     }
 }
-
+/**
+ * Encrypt and send a message to the server
+ * @param {string} message the message content
+ * @param {Contact} contact the contact object to send to
+ */
 function sendMessage(message,contact){
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             var out =  this.responseText;
-            //console.log(out);
         }
     };
     
@@ -165,7 +167,9 @@ function sendMessage(message,contact){
     createMessageElement("You", message);
     return xhttp, outdata;
 }
-
+/**
+ * Update local storage with contacts
+ */
 function saveContacts(){
     var out = {};
     for(var i = 0 ; i < contacts.length;i++){
@@ -174,6 +178,9 @@ function saveContacts(){
     window.localStorage.setItem("contacts", JSON.stringify(out));
     window.localStorage.setItem("contactlength", contacts.length);
 }
+/**
+ * Update the array 'contacts' from local storage
+ */
 function loadContacts(){
     contacts=[];
     var dat = window.localStorage.getItem("contacts");
@@ -188,9 +195,10 @@ function loadContacts(){
     }
     return jsonified;
 }
-
+/**
+ * Setup necessary variables and pre-requisites for running.
+ */
 function main(){
-    //load contacts
 
     if(window.localStorage.getItem("contacts") == null){
         window.localStorage.setItem("contacts", "");
@@ -217,11 +225,16 @@ function main(){
     setInterval(getMessages,5000);
 
 }
+//electron compatibility
 if(isBrowser){
 	var contactlist = document.getElementById("contact_list");
 	main();
 }
-
+/**
+ * Create a DOM element for a contact
+ * @param {string} name name of a contact
+ * @param {int} index index in the array 'contacts'
+ */
 function createContactElement(name, index){
     var diver = document.createElement("li");
     var button = document.createElement("div");
@@ -242,7 +255,11 @@ function createContactElement(name, index){
     <button id=name class = "uk-button uk-button-secondary uk-button-large contact uk-text-truncate uk-animation-slide-right"></button>
     */
 }
-
+/**
+ * Create a DOM element for a message
+ * @param {string} name sender
+ * @param {string} messagetext payload 
+ */
 function createMessageElement(name, messagetext){
     var color;
     if(name == currentContact.name){
@@ -272,7 +289,11 @@ function createMessageElement(name, messagetext){
     </div>
     */
 }
-
+/**
+ * Create a new contact (Including DOM element)
+ * @param {string} name 
+ * @param {PublicKey} key public key 
+ */
 function addNewContact(name, key){
     var newcontact = new Contact(key,name);
     contacts.push(newcontact);
@@ -280,14 +301,21 @@ function addNewContact(name, key){
     saveContacts();
 }
 
- //callbacks:
+//callbacks:
+
+/**
+ * Callback for sending a message
+ */
 function messageBox_onEnter(){
     sendMessage(document.getElementById("message").value, currentContact);
     document.getElementById("message").value="";
     document.getElementById("scroller").scrollBy(0,100);
     return true;
 }
-
+/**
+ * Callback for clicking a contact's button
+ * @param {int} index index of contact in the array 'contacts'
+ */
 function contact_onpress(index){
     
     currentContact = contacts[index];
@@ -295,6 +323,11 @@ function contact_onpress(index){
     updateMessagesDisplay(true);
     document.getElementById("current_contact_disp").innerHTML = "@"+currentContact.name;
 }
+/**
+ * Set group of DOM elements to visible
+ * @param {string} name container id
+ * @deprecated
+ */
 function openContent(name){
     var elems = document.getElementById(name).querySelectorAll("*");
     for(var i = 0 ; i < elems.length;i++){
@@ -304,6 +337,11 @@ function openContent(name){
 
     return elems;
 }
+/**
+ * Set group of DOM elements to hidden
+ * @param {string} name container id
+ * @deprecated
+ */
 function closeContent(name){
     var elems = document.getElementById(name).querySelectorAll("*");
     for(var i = 0 ; i < elems.length;i++){
@@ -313,7 +351,9 @@ function closeContent(name){
     return elems;
 
 }
-
+/**
+ * Callback for submitting new contacts
+ */
 function submit_new_contact(){
     var ncn = document.getElementById("new_contact_name").value;document.getElementById("new_contact_name").value="";
     var nck = document.getElementById("new_contact_key").value;document.getElementById("new_contact_key").value="";
@@ -321,7 +361,10 @@ function submit_new_contact(){
     addNewContact(ncn, nck);
 
 }
-
+/**
+ * Setup edit contact menu with correct values
+ * @param {Contact} contact 
+ */
 function openContactEdit(contact){
     var _name = document.getElementById("ec_name");
     var _key = document.getElementById("ec_key");
@@ -330,7 +373,10 @@ function openContactEdit(contact){
     _key.value=contact.key;
     _sub.contacta = contact;
 }
-
+/**
+ * Apply changes to a contact
+ * @param {Contact} contact 
+ */
 function submit_edit_contact(contact){
     var _name = document.getElementById("ec_name").value;
     var _key = document.getElementById("ec_key").value;
@@ -339,18 +385,24 @@ function submit_edit_contact(contact){
     stopEditingContacts();
 }
 
-
+/**
+ * Show DOM elements associated with editing contacts
+ */
 function editContacts(){
     for(var i = 0 ; i < contacts.length; i++){
         contacts[i].showEditMenu();
     }
 }
+/**
+ * Hide DOM elements associated with editing contacts
+ */
 function stopEditingContacts(){
     for(var i = 0 ; i < contacts.length; i++){
         contacts[i].hideEditMenu();
     }
 }
 
+//Toggle edit menu
 let editToggle = false;
 
 function toggleEdit(){
