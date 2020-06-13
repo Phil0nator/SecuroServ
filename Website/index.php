@@ -14,7 +14,7 @@
         
             <div class="uk-container">
                 <h1 class=" uk-text-center uk-text-bold uk-text-italic " uk-parallax="y: -300;">SecuroServ</h1>
-                <h2 class="uk-text-center uk-text-italic" uk-parallax="x: 500;"> No Signup, No Bullshit </h2>
+                <h2 class="uk-text-center uk-text-italic" uk-parallax="x: 500;"> No Bullshit </h2>
                 <div class="image-stack">
 
                     <div uk-parallax="x: 350;blur: 30;" class="image-stack__item--middle">
@@ -65,13 +65,55 @@
             </div>
         </div>
 
-        <div id = "download" class="uk-section uk-section-default uk-dark">
+        <div id="download" class="uk-section uk-section-default uk-preserve-color">
             <div class="uk-container">
 
-                
+                <div class="uk-panel uk-dark uk-margin-medium">
+                    <h2>Download</h2>
+                </div>
 
+                <div class="uk-grid-match uk-child-width-expand@m" uk-grid>
+                    <div>
+                        <div class="uk-card uk-card-default uk-card-body">
+                            <h4>Download Client</h4>
+                            <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider>
+
+                                <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m">
+                                    <li>
+                                        <img src="assets/windows.png" alt="" width="64" height="64">
+                                    </li>
+                                    <li>
+                                        <img src="assets/ubuntu.png" alt=""  width="64" height="64">
+                                    </li>
+                                    <li>
+                                        <img src="assets/apple.png" alt=""  width="64" height="64">
+                                    </li>
+                                </ul>
+
+                                <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
+                                <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slider-item="next"></a>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="uk-card uk-card-default uk-card-body">
+                            <h4>See Web Client</h4>
+                            <div class="uk-background-primary container">
+                                <button class="uk-button uk-button-primary uk-button-large button_shake">
+                                    <svg width="100%" height="100%" viewBox="0 0 180 60" class="border">
+                                        <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line" />
+                                        <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line" />
+                                    </svg>
+                                    <span>Web Client</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
             </div>
-        </div>
+
+    </div>
+</div>
 
     <body>
     <div>

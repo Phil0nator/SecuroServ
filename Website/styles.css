@@ -2,29 +2,97 @@
     display: grid;
     position: relative;
     grid-template-columns: repeat(12, 1fr);
-  }
-  
-  .image-stack__item--bottom {
-    grid-column: 4 / -1;
-    
-    grid-row: 1;
-  }
+}
 
-  .image-stack__item--middle{
-      grid-column: 2/-2;
-      grid-row: 1;
-      padding-top: 20%;
-      z-index: 1;
-  }
-  
-  .image-stack__item--top {
+.image-stack__item--bottom {
+grid-column: 4 / -1;
+
+grid-row: 1;
+}
+
+.image-stack__item--middle{
+    grid-column: 2/-2;
     grid-row: 1;
-    grid-column: 1 / span 8;
-    padding-top: 40%; 
-    z-index: 2;
-  }
+    padding-top: 20%;
+    z-index: 1;
+}
+
+.image-stack__item--top {
+grid-row: 1;
+grid-column: 1 / span 8;
+padding-top: 40%; 
+z-index: 2;
+}
+
+.img {
+width: 100%;
+display: block;
+}
+
+.button_shake{
+
+    transition: all 0.15s;
+
+
+}
+.button_shake span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+.button_shake:hover span{
+
+    padding-right: 25px;
+
+}
+
+
+.button_shake:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+.button_shake span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+.button_shake:hover span{
+    border: 2px;
+    border-color:black;
+}
+.button_shake:hover svg{
+    stroke-dashoffset: -480;
+}
+svg{
+  position: absolute;
+  left: 0;
+  top: 0;
+  fill: none;
+  stroke: #000;
+  stroke-dasharray: 150 480;
+  stroke-dashoffset: 150;
+  transition: 1s ease-in-out;
+}
+
+.button_shake svg{
+  color: 000;
+  font-size: 18px;
+  font-weight: 100;
+}
+
+.button_shake:hover svg:after{
+    width:100%;
+    height:100%;
+}
+
+.container {
+    position:absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
   
-  .img {
-    width: 100%;
-    display: block;
-  }

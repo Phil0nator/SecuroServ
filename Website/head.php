@@ -13,10 +13,10 @@
         </div>
         <div class="uk-navbar-right">
 
-            <ul class="uk-navbar-nav ">
-                <li class="uk-nav  uk-padding"><button class="uk-button uk-button-text" href="#home" uk-scroll>Home</button></li>
-                <li class="uk-nav  uk-padding"><button class="uk-button uk-button-text" href="#about" uk-scroll>About</button></li>
-                <li class="uk-nav   uk-padding"><button class="uk-button uk-button-text" href="#download" uk-scroll>Download</button></li>
+            <ul class="uk-navbar-nav uk-padding-small">
+                <li class=""><a class="uk-button-text" href="#body" uk-scroll>Home</a></li>
+                <li class=""><a class=" uk-button-text" href="#about" uk-scroll>About</a></li>
+                <li class=""><a class="uk-button-text" href="#download" uk-scroll>Download</a></li>
                 
             </ul>
 
