@@ -76,22 +76,31 @@
                     <div>
                         <div class="uk-card uk-card-default uk-card-body">
                             <h4>Download Client</h4>
-                            <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider>
+                            <div class="uk-position-relative uk-visible-toggle uk-light">
 
-                                <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m">
-                                    <li>
-                                        <img src="assets/windows.png" alt="" width="64" height="64">
+                                <ul class="uk-subnav" uk-height-match="target: > li">
+                                    <li > 
+                                        <p>
+                                            <a href="versions/SecuroServ-darwin-x64.tar.xz">
+                                            <img src="assets/windows.png" alt="" width="64" height="64">
+                                            </a>
+                                        </p>
                                     </li>
                                     <li>
-                                        <img src="assets/ubuntu.png" alt=""  width="64" height="64">
+                                        <p>
+                                            <a href="versions/SecuroServ-linux-x64.tar.xz">
+                                            <img src="assets/ubuntu.png" alt=""  width="64" height="64">
+                                            </a>
+                                        </p>
                                     </li>
-                                    <li>
-                                        <img src="assets/apple.png" alt=""  width="64" height="64">
+                                    <li >
+                                        <p>
+                                            <a href="versions/SecuroServ-darwin-x64.tar.xz">
+                                            <img src="assets/apple.png" alt=""  width="64" height="64">
+                                            </a>
+                                        </p>
                                     </li>
                                 </ul>
-
-                                <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
-                                <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slider-item="next"></a>
 
                             </div>
                         </div>
@@ -100,7 +109,7 @@
                         <div class="uk-card uk-card-default uk-card-body">
                             <h4>See Web Client</h4>
                             <div class="uk-background-primary container">
-                                <button class="uk-button uk-button-primary uk-button-large button_shake">
+                                <button class="uk-button uk-button-primary uk-button-large button_shake" onclick="window.open('http://70.142.145.111','_blank')">
                                     <svg width="100%" height="100%" viewBox="0 0 180 60" class="border">
                                         <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line" />
                                         <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line" />
