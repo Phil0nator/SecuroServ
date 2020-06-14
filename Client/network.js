@@ -94,7 +94,7 @@ function reGenerateKeys(priv){
 }
 
 function getPrivateKey(){
-    return window.localStorage.getItem("prk");
+    return deserializeRSAKey(window.localStorage.getItem("prk"));
 }
 function getPublicKey(){
     return window.localStorage.getItem("puk");

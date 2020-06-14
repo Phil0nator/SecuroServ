@@ -7,8 +7,35 @@
     <link rel="stylesheet" href="styles.css">
 
 
-    <?php include 'head.php';?>
-    <body>
+    <head>
+        <title>
+            SecuroServ
+        </title>
+</head>
+<header>  
+
+
+<div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; bottom: #transparent-sticky-navbar" class="">
+    <nav class="uk-navbar-container " uk-navbar>
+        <div>
+            <a class="uk-navbar-item uk-logo"><i uk-icon="icon: code" class="uk-padding"></i>SecuroServ</a>
+        </div>
+        <div class="uk-navbar-right">
+
+            <ul class="uk-navbar-nav uk-padding-small">
+                <li class=""><a class="uk-button-text" href="#body" uk-scroll>Home</a></li>
+                <li class=""><a class=" uk-button-text" href="#about" uk-scroll>About</a></li>
+                <li class=""><a class="uk-button-text" href="#download" uk-scroll>Download</a></li>
+                
+            </ul>
+
+        </div>
+    </nav>
+</div>
+
+
+
+</header>    <body>
         
         <div id="home" class="uk-section uk-section-secondary uk-light">
         
@@ -81,23 +108,23 @@
                                 <ul class="uk-subnav" uk-height-match="target: > li">
                                     <li > 
                                         <p>
-                                            <a href="versions/SecuroServ-darwin-x64.tar.xz">
+                                            <a href="versions/SecuroServ-win32-x64.zip">
                                             <img src="assets/windows.png" alt="" width="64" height="64">
-                                            </a>
+					    </a>
                                         </p>
                                     </li>
                                     <li>
                                         <p>
-                                            <a href="versions/SecuroServ-linux-x64.tar.xz">
-                                            <img src="assets/ubuntu.png" alt=""  width="64" height="64">
-                                            </a>
+                                            <a href="versions/SecuroServ-linux-x64.zip">
+                                            <img src="assets/linux.png" alt=""  width="64" height="64">
+					    </a>
                                         </p>
                                     </li>
                                     <li >
                                         <p>
-                                            <a href="versions/SecuroServ-darwin-x64.tar.xz">
+                                            <a href="versions/SecuroServ-darwin-x64.zip">
                                             <img src="assets/apple.png" alt=""  width="64" height="64">
-                                            </a>
+					    </a>
                                         </p>
                                     </li>
                                 </ul>
@@ -126,10 +153,28 @@
 
     <body>
     <div>
-    <?php include 'foot.php';?>
+    <div>
+
+<div class="uk-section uk-section-secondary uk-light">
+    <div class="uk-container">
+
+        <h3>SecuroServ</h3>
+
+        <div class="uk-grid-match uk-child-width-1-3@m" uk-grid>
+            <div>
+				<a>Privacy Policy.</a>
+				<a>Source Code</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</div>
     </div>
 
 
 
 
 </html>
+
